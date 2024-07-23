@@ -10,46 +10,7 @@ function Home() {
   useEffect(() => {
     document.title = "Agenda de Salas SENAI Vitória";
     new FuncoesExibir();
-    // Chama a função para carregar os usuários
-    setAulas([
-      {
-        id: 1,
-        inicio: "13:30",
-        fim: "17:30",
-        turma: "HTC DDS-3-16",
-        instrutor: "Jeffrey Jonnes",
-        uc: "Desenvolvimento Sistemas",
-        ambiente: "LAB-5106"
-      },
-      {
-        id: 2,
-        inicio: "13:30",
-        fim: "17:30",
-        turma: "HTC DDS-3-16",
-        instrutor: "Julio Honorato",
-        uc: "Desenvolvimento Sistemas",
-        ambiente: "LAB-5106"
-      },
-      {
-        id: 3,
-        inicio: "13:30",
-        fim: "17:30",
-        turma: "HTC DDS-3-16",
-        instrutor: "Jamille Galazi",
-        uc: "Desenvolvimento Sistemas",
-        ambiente: "LAB-5106"
-      },
-      {
-        id: 4,
-        inicio: "13:30",
-        fim: "17:30",
-        turma: "HTC DDS-3-16",
-        instrutor: "Jamille Galazi",
-        uc: "Desenvolvimento Sistemas",
-        ambiente: "LAB-5106"
-      }
-    ]);
-
+    listarAulas();
     setImagens([
       {
         id: 1,
@@ -67,9 +28,68 @@ function Home() {
         alt: "cursos gratuitos"
       }]
     );
-    console.debug(aulas)
-  }, []);
 
+    console.debug(aulas)
+  },[]);
+
+  async function listarAulas() {
+    try {
+      // Faz a chamada para a API através do proxy
+      const resposta = await fetch('/aulas')
+      if (!resposta.ok) {
+        throw new Error(`HTTP error! status: ${resposta.status}`);
+      }
+      const dados = await resposta.json();
+
+  
+      console.debug(dados)
+      setAulas(dados);
+    } catch (erro) {
+      throw new Error('Erro na consulta!' + erro);
+    }
+  }
+
+  function formatarHora(dataHoraISO) {
+    const data = new Date(dataHoraISO);
+    return data.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  function splitName(name) {
+    name = name.toUpperCase();
+    const pieces = name.split(' ');
+    if (pieces.length === 1) {
+      return pieces[0]; // Retorna o nome se for apenas uma palavra
+    }
+    return pieces[0] + ' ' + pieces[pieces.length - 1];
+  }
+  
+
+  function uniName(name) {
+    name = name.toUpperCase();
+    const pieces = name.split(" ");
+    if (pieces.length === 1) {
+      return name; // Retorna o nome se for apenas uma palavra
+    }
+    const abrev = pieces[0].substring(0, 4);
+    // Remove os dois últimos elementos do array
+    pieces.splice(-2, 2);
+    return abrev + ". " + pieces.pop();
+  }
+
+  function ambName(name) {
+    name = name.toUpperCase();
+    const pieces = name.split("-");
+    if (pieces.length <= 2) {
+      return name; // Retorna o nome se não houver prefixo suficiente para remover
+    }
+    // Remove os dois primeiros elementos do array
+    pieces.shift();
+    pieces.shift();
+    return pieces.join("-");
+  }
 
   return (
     <div className=''>
@@ -93,12 +113,12 @@ function Home() {
             <tbody>
               {aulas.map(aula => (
                 <tr key={aula.id}>
-                  <td>{aula.inicio.toUpperCase()}</td>
-                  <td>{aula.fim}</td>
+                  <td>{formatarHora(aula.data_hora_inicio)}</td>
+                  <td>{formatarHora(aula.data_hora_fim)}</td>
                   <td>{aula.turma.toUpperCase()}</td>
-                  <td>{aula.instrutor.toUpperCase()}</td>
-                  <td>{aula.uc.toUpperCase()}</td>
-                  <td>{aula.ambiente.toUpperCase()}</td>
+                  <td>{splitName(aula.instrutor)}</td>
+                  <td>{uniName(aula.unidade_curricular)}</td>
+                  <td>{ambName(aula.ambiente)}</td>
                 </tr>
               ))}
             </tbody>

@@ -12,7 +12,7 @@ function Navbar() {
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="" class="nav-link">Inicio</a>
+                            <a href="./" class="nav-link">Inicio</a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">Sobre nós</a>
