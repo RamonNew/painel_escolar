@@ -15,7 +15,7 @@ class AulaModel{
             const periodoClauses = [];
 
             if (periodos.includes('manha')) {
-                periodoClauses.push('(TIME(data_hora_inicio) >= "06:00:00" AND TIME(data_hora_inicio) < "12:00:00")');
+                periodoClauses.push('(TIME(data_hora_inicio) >= "00:00:00" AND TIME(data_hora_inicio) < "12:00:00")');
             }
             if (periodos.includes('tarde')) {
                 periodoClauses.push('(TIME(data_hora_fim) >= "13:00:00" AND TIME(data_hora_fim) <= "18:30:00")');

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import './Home.css'
+import { useEffect, useState, useRef } from 'react';
+//import './Home.css'
 import FuncoesExibir from './funcoesExibir';
 
 function Home() {
   let [aulas, setAulas] = useState([]);
   let [imagens, setImagens] = useState([]);
-
+  const iframeRef = useRef(null);
 
   useEffect(() => {
     document.title = "Agenda de Salas SENAI Vitória";
@@ -29,8 +29,11 @@ function Home() {
       }]
     );
 
-    console.debug(aulas)
-  },[]);
+
+  }, []);
+
+  
+
 
   async function listarAulas() {
     try {
@@ -41,7 +44,7 @@ function Home() {
       }
       const dados = await resposta.json();
 
-  
+
       console.debug(dados)
       setAulas(dados);
     } catch (erro) {
@@ -65,7 +68,7 @@ function Home() {
     }
     return pieces[0] + ' ' + pieces[pieces.length - 1];
   }
-  
+
 
   function uniName(name) {
     name = name.toUpperCase();
@@ -123,11 +126,15 @@ function Home() {
               ))}
             </tbody>
           </table>
-        </div><div id="lateral" className="lateral">
-          {imagens.map(i => (
+        </div>
+        <div id="lateral" className="lateral">
+          {imagens.map((i,index) => (
+            <>
+            {index === 1 && <iframe id='youtube-iframe' class="imganun" src="https://www.youtube.com/embed/videoseries?loop=1&autoplay=1&mute=0&list=PLQjyOwYs8LxLFm0XJuw-_IGOxrFCjD2NE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style={{ width: "100%", maxHeight: "100%" }}></iframe>}
             <div key={i.id}>
-              <img src={i.endereco} alt={i.alt} className = "imganun" />
+              <img src={i.endereco} alt={i.alt} className="imganun" />
             </div>
+            </>
           ))}
         </div>
 

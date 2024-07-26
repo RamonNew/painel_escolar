@@ -1,0 +1,78 @@
+*{
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.chave-verde td{
+    background-color: #5eb35e !important;
+    color: white;
+}
+
+.filtros label{
+    margin-left: 45px;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+}
+
+.cabecalho{
+    background-color: #26a9e1;
+    color: white;
+    font-size: 48px;
+    padding: 10px 100px;
+    border-radius: 8px;
+    margin: 0 0 8px 0;
+}
+.saudacao{
+    display: inline-block;
+    width: 90%;
+}
+.relogio{
+    display: inline-block;
+    width: 10%;
+}
+
+.aulas{
+    display: inline-block;
+    width: 80%;
+    vertical-align: top;
+}
+.lateral{
+    display: inline-block;
+    width: 20%;
+}
+#tabelaAulas{
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 20px;
+    padding-right: 8px;
+}
+thead tr th{
+    background-color: #006bb4;
+    color: white;
+}
+
+#tabelaAulas tr:nth-child(odd){
+    background-color: #f2f2f2;
+}
+
+#tabelaAulas tr:nth-child(even){
+    background-color: #26a9e1;
+    color: white;
+}
+td,th{
+    padding: 4px;
+}
+
+.imganun{
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-bottom: 4px;
+}
+
+img{
+    width: 100%;
+}
+

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './Home.css';
+//import './Home.css';
 
 function Contingencia() {
   const [aulas, setAulas] = useState([]);
@@ -121,65 +121,71 @@ function Contingencia() {
   ];
 
   return (
-    <div className=''>
+    <div className='px-2'>
       {isLoggedIn && <div>Bem-Vindo, {login} <br />Essas informações <font color='red'>PODEM</font> ser acessadas por você</div>}
       <div className="conteudo">
-        <form onSubmit={filtrarAulas}>
-          <label>
-            Data Início:
-            <input
-              class="form-control"
-              type="date"
-              value={dataInicioFiltro}
-              onChange={(e) => setDataInicioFiltro(e.target.value)}
-            />
-          </label>
-          <label>
-            Data Fim:
-            <input
-            class="form-control"
-              type="date"
-              value={dataFimFiltro}
-              onChange={(e) => setDataFimFiltro(e.target.value)}
-            />
-          </label>
-          <br />
-          <label>
-          
-            <input
-              type="checkbox"
-              name="periodo"
-              value="manha"
-              checked={periodosFiltro.manha}
-              onChange={(e) => setPeriodosFiltro({ ...periodosFiltro, manha: e.target.checked })}
-            />
-            Manhã
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="periodo"
-              value="tarde"
-              checked={periodosFiltro.tarde}
-              onChange={(e) => setPeriodosFiltro({ ...periodosFiltro, tarde: e.target.checked })}
-            />
-            Tarde
-          </label>
-          <label>
-            
-            <input
-              type="checkbox"
-              name="periodo"
-              value="noite"
-              checked={periodosFiltro.noite}
-              onChange={(e) => setPeriodosFiltro({ ...periodosFiltro, noite: e.target.checked })}
-            />
-            Noite
-          </label>
-          <br />
-          <button className='btn btn-primary' type="submit">Filtrar</button>
-        </form>
-        <table id="tabelaAulas" className="table table-striped table-mobile mobile-primary h5 cont">
+        <div id='filtros' className='col-4'>
+          <form className='filtros mt-3' onSubmit={filtrarAulas}>
+            <div className='row'>
+
+              <label className='fw-bold col'>
+                Data Início:
+                <input
+                  class="form-control"
+                  type="date"
+                  value={dataInicioFiltro}
+                  onChange={(e) => setDataInicioFiltro(e.target.value)}
+                />
+              </label>
+              <label className='fw-bold col'>
+                Data Fim:
+                <input
+                  class="form-control"
+                  type="date"
+                  value={dataFimFiltro}
+                  onChange={(e) => setDataFimFiltro(e.target.value)}
+                />
+              </label>
+            </div>
+            <div className='row'>
+              <label className='col my-auto'>
+                <input
+                  className='my-auto'
+                  type="checkbox"
+                  name="periodo"
+                  value="manha"
+                  checked={periodosFiltro.manha}
+                  onChange={(e) => setPeriodosFiltro({ ...periodosFiltro, manha: e.target.checked })}
+                />
+                Manhã
+              </label>
+              <label className='col my-auto'>
+                <input
+                  type="checkbox"
+                  name="periodo"
+                  value="tarde"
+                  checked={periodosFiltro.tarde}
+                  onChange={(e) => setPeriodosFiltro({ ...periodosFiltro, tarde: e.target.checked })}
+                />
+                Tarde
+              </label>
+              <label className='col my-auto'>
+                <input
+                  type="checkbox"
+                  name="periodo"
+                  value="noite"
+                  checked={periodosFiltro.noite}
+                  onChange={(e) => setPeriodosFiltro({ ...periodosFiltro, noite: e.target.checked })}
+                />
+                Noite
+              </label>
+
+              <button className='ms-1 my-2 btn btn-primary col' type="submit">Filtrar</button>
+
+            </div>
+          </form>
+        </div>
+        <table id="tabelaAulas" className="">
           <thead>
             <tr>
               <th scope="col">Data</th>
