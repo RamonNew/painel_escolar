@@ -11,28 +11,25 @@ function Home() {
     document.title = "Agenda de Salas SENAI Vitória";
     new FuncoesExibir();
     listarAulas();
-    setImagens([
-      {
-        id: 1,
-        endereco: "https://portal.fiero.org.br/storage/noticia/WKl2Bk5qmOIbzF3zCDrRRIbyjwMLfXCpJhe7FqPG.png",
-        alt: "tabela massa corporal"
-      },
-      {
-        id: 2,
-        endereco: "https://cronos-media.sesisenaisp.org.br//api/media/1-0/files?img=img_1_230210_a391e771-b907-4a76-969f-3f4b68dea849_o.jpg",
-        alt: "300 vagas curso"
-      },
-      {
-        id: 3,
-        endereco: "https://haddadpresidente.com.br/wp-content/uploads/2023/06/cursos-senai.jpg",
-        alt: "cursos gratuitos"
-      }]
-    );
-
-
+    listarAnuncios();
   }, []);
 
-  
+  async function listarAnuncios(){
+    try {
+      // Faz a chamada para a API através do proxy
+      const resposta = await fetch('/imagens')
+      if (!resposta.ok) {
+        throw new Error(`HTTP error! status: ${resposta.status}`);
+      }
+      const dados = await resposta.json();
+
+
+      console.debug(dados)
+      setImagens(dados);
+    } catch (erro) {
+      throw new Error('Erro na consulta!' + erro);
+    }
+  }
 
 
   async function listarAulas() {
@@ -132,7 +129,7 @@ function Home() {
             <>
             {index === 1 && <iframe id='youtube-iframe' class="imganun" src="https://www.youtube.com/embed/videoseries?loop=1&autoplay=1&mute=0&list=PLQjyOwYs8LxLFm0XJuw-_IGOxrFCjD2NE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style={{ width: "100%", maxHeight: "100%" }}></iframe>}
             <div key={i.id}>
-              <img src={i.endereco} alt={i.alt} className="imganun" />
+              <img src={`http://localhost:5000/public/${i.caminho}`} alt={i.alt} className="imganun" />
             </div>
             </>
           ))}

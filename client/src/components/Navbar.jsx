@@ -15,23 +15,16 @@ function Navbar() {
                             <a href="./" class="nav-link">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Sobre nós</a>
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a href="" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Interno</a>
-
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="" class="dropdown-item">Trabalhe Conosco</a>
-                                </li>
-                                <li>
-                                    <a href="" class="dropdown-item">Blog</a>
-                                </li>
-                            </ul>
+                            <a href="./contingencia" class="nav-link">Aulas</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Contato</a>
+                            <a href="./gerenciarimagens" class="nav-link">Anúncios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">Usuários</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">CSV</a>
                         </li>
                     </ul>
                 </div>

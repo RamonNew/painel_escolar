@@ -1,0 +1,5 @@
+.img-fix {
+    height: 200px; /* Defina a altura fixa desejada */
+    object-fit: cover; /* Faz com que a imagem se ajuste ao espaço definido */
+    width: 100%; /* Faz com que a imagem ocupe 100% da largura do contêiner */
+  }

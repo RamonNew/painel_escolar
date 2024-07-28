@@ -4,6 +4,7 @@ import AddUsuario from './views/AdicionarUsuarios';
 import GestaoUsuarios from './views/GestaoUsuarios';
 import EditUsuario from './views/EditUsuario';
 import Contingencia from './views/Contingencia';
+import GerenciarImagens from './views/GerenciarImagens';
 
 function RotasInternas() {
     return (
@@ -14,6 +15,7 @@ function RotasInternas() {
                 <Route path='/gestaoUsuario' element={<GestaoUsuarios />} />
                 <Route path='/editUsuario/:id' element={<EditUsuario />} />
                 <Route path='/contingencia' element={<Contingencia />} />
+                <Route path='/gerenciarimagens' element={<GerenciarImagens />} />
             </Routes>
         </div>
     )
