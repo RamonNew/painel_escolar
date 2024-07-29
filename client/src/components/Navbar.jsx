@@ -12,20 +12,21 @@ function Navbar() {
 
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a href="./" class="nav-link">Inicio</a>
+                            <a href="/" class="nav-link">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a href="./contingencia" class="nav-link">Aulas</a>
+                            <a href="/contingencia" class="nav-link">Aulas</a>
                         </li>
                         <li class="nav-item">
-                            <a href="./gerenciarimagens" class="nav-link">Anúncios</a>
+                            <a href="/gerenciarimagens" class="nav-link">Anúncios</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">Usuários</a>
+                            <a href="/gerenciarcsv" class="nav-link">CSV</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">CSV</a>
+                            <a href="/gestaoUsuario" class="nav-link">Usuários</a>
                         </li>
+
                     </ul>
                 </div>
                 <button class="navbar-toggler mx-2" type="button" data-bs-toggle="collapse"
