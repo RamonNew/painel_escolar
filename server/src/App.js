@@ -5,7 +5,7 @@ const port = 5000
 
 import AulaController from './controllers/AulaController.js';
 import ImagemController from './controllers/ImagemController.js';
-
+import CSVController from './controllers/CSVController.js';
 
 
 // For parsing application/json
@@ -39,6 +39,9 @@ app.post("/imagens", ImagemController.create);
 app.get("/imagens/:id", ImagemController.readPorId);
 app.put("/imagens/:id", ImagemController.atualizar);
 app.delete("/imagens/:id", ImagemController.deletar);
+
+// Rota para upload e processamento de CSV
+app.post("/upload-csv", CSVController.receberUpload);
 
 // Rota para servir as imagens
 app.get("/public/:nomeImagem", ImagemController.mostrarImagem);
