@@ -53,7 +53,7 @@ class UsuarioController {
         try {
             const [status, mensagem, usuario_id, usuario_tipo] = await UsuarioModel.verificaUsuarioSenha(usuario, senha);
             if (status === 200) {
-                const token = jwt.sign({ usuario_id, usuario_tipo }, secret, { expiresIn: 120 });
+                const token = jwt.sign({ usuario_id, usuario_tipo }, secret, { expiresIn: 14400 });
                 res.status(status).json({ token });
             } else {
                 res.status(status).json({ mensagem });

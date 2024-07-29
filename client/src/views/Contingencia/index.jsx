@@ -244,7 +244,6 @@ function Contingencia() {
             ))}
           </tbody>
         </table>
-        <a href="anun.php">Anúncios Laterais</a>
       </div>
     </div>
   );
