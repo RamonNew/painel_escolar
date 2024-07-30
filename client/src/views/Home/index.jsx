@@ -96,6 +96,8 @@ function Home() {
     return pieces.join("-");
   }
 
+  const serverUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+
   return (
     <div className=''>
       <div className="cabecalho">
@@ -132,9 +134,9 @@ function Home() {
         <div id="lateral" className="lateral">
           {imagens.map((i,index) => (
             <>
-            {index === 1 && <iframe id='youtube-iframe' class="imganun" src="https://www.youtube.com/embed/videoseries?loop=1&autoplay=1&mute=0&list=PLQjyOwYs8LxLFm0XJuw-_IGOxrFCjD2NE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style={{ width: "100%", maxHeight: "100%" }}></iframe>}
+            {index === 1 && <iframe id='youtube-iframe' className="imganun" src="https://www.youtube.com/embed/videoseries?loop=1&autoplay=1&mute=0&list=PLQjyOwYs8LxLFm0XJuw-_IGOxrFCjD2NE" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ width: "100%", maxHeight: "100%" }}></iframe>}
             <div key={i.id}>
-              <img src={`http://localhost:5000/public/${i.caminho}`} alt={i.alt} className="imganun" />
+              <img src={`${serverUrl}/public/${i.caminho}`} alt={i.alt} className="imganun" />
             </div>
             </>
           ))}

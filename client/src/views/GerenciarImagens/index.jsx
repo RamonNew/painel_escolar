@@ -66,6 +66,8 @@ function GerenciarImagens() {
     }
   }
 
+  const serverUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+
   return (
     <div className='container'>
       <h1 className='my-4'>Gerenciar Imagens</h1>
@@ -96,7 +98,7 @@ function GerenciarImagens() {
           <div className='col-md-4' key={imagem.id}>
             <div className='card mb-4'>
               <img
-                src={`http://localhost:5000/public/${imagem.caminho}`}
+                src={`${serverUrl}/public/${imagem.caminho}`}
                 className='card-img-top img-fix' // Adicionando a classe img-fix
                 alt={imagem.alternativo}
               />
