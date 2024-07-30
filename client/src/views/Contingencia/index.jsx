@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 //import './Home.css';
 
 function Contingencia() {
@@ -75,7 +75,8 @@ function Contingencia() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       alert('Aula alterada');
-      window.location.reload();
+      // Atualiza a lista de aulas após a alteração
+      setAulas(prevAulas => prevAulas.map(a => a.id === aula.id ? aula : a));
     } catch (error) {
       console.error('Erro ao salvar aula!', error);
     }
@@ -131,7 +132,7 @@ function Contingencia() {
               <label className='fw-bold col'>
                 Data Início:
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="date"
                   value={dataInicioFiltro}
                   onChange={(e) => setDataInicioFiltro(e.target.value)}
@@ -140,7 +141,7 @@ function Contingencia() {
               <label className='fw-bold col'>
                 Data Fim:
                 <input
-                  class="form-control"
+                  className="form-control"
                   type="date"
                   value={dataFimFiltro}
                   onChange={(e) => setDataFimFiltro(e.target.value)}

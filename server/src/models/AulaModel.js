@@ -1,8 +1,8 @@
 import mysql from 'mysql2/promise';
 import db from '../conexao.js';
 
-class AulaModel{
-    constructor(){
+class AulaModel {
+    constructor() {
         this.conexao = mysql.createPool(db);
     }
 
@@ -27,6 +27,8 @@ class AulaModel{
             sql += periodoClauses.join(' OR ');
             sql += ')';
         }
+
+        sql += ' ORDER BY data_hora_inicio, instrutor';
 
         try {
             const [retorno] = await this.conexao.query(sql, params);
@@ -83,10 +85,6 @@ class AulaModel{
             return [400, error];
         }
     }
-    
 }
-
-// const aula = new AulaModel();
-// console.log( await aula.mostrarAulas('2024-07-19','2024-07-19',['noite','manha']));
 
 export default new AulaModel();

@@ -13,7 +13,7 @@ function Home() {
     listarAulas();
     listarAnuncios();
 
-    const intervalId = setInterval(listarAulas, 60000); // Atualiza a cada 1 minuto (60000 ms)
+    const intervalId = setInterval(listarAulas, 30000); // Atualiza a cada 1 minuto (60000 ms)
 
     return () => clearInterval(intervalId); // Limpa o intervalo quando o componente é desmontado
 

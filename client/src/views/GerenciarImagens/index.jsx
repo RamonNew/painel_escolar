@@ -26,6 +26,12 @@ function GerenciarImagens() {
 
   async function handleUpload(event) {
     event.preventDefault();
+
+    if (!alternativo) {
+      alert('Por favor, preencha o texto alternativo antes de enviar a imagem.');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('imagem', arquivo);
     formData.append('alternativo', alternativo);
@@ -39,9 +45,7 @@ function GerenciarImagens() {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       alert('Imagem enviada com sucesso');
-      setArquivo(null);
-      setAlternativo('');
-      listarImagens();
+      window.location.reload(); // Recarregar a página
     } catch (error) {
       console.error('Erro ao enviar imagem!', error);
     }

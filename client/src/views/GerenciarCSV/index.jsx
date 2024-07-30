@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './GerenciarCSV.css'; // Adicione este import para o arquivo CSS
 
 function GerenciarCSV() {
   const [arquivo, setArquivo] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleUpload(event) {
     event.preventDefault();
@@ -13,6 +15,7 @@ function GerenciarCSV() {
 
     const formData = new FormData();
     formData.append('csv', arquivo);
+    setIsLoading(true);
 
     try {
       const response = await fetch('/upload-csv', {
@@ -27,11 +30,18 @@ function GerenciarCSV() {
     } catch (error) {
       console.error('Erro ao enviar o arquivo CSV!', error);
       alert('Erro ao enviar o arquivo CSV!');
+    } finally {
+      setIsLoading(false);
     }
   }
 
   return (
     <div className='container'>
+      {isLoading && (
+        <div className='loading-overlay'>
+          <div className='loading-message'>Aguarde...</div>
+        </div>
+      )}
       <h1 className='my-4'>Gerenciar CSV</h1>
       <form onSubmit={handleUpload} className='mb-4'>
         <div className='mb-3'>
