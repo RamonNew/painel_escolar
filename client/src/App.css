@@ -76,3 +76,18 @@ img{
     width: 100%;
 }
 
+/* Media Query para dispositivos móveis */
+@media (max-width: 768px) {
+    .lateral {
+        display: none; /* Oculta a div lateral em telas pequenas */
+    }
+    .aulas {
+        width: 100%; /* Faz a tabela ocupar 100% da largura */
+    }
+    .cabecalho {
+        padding: 10px 20px; /* Ajuste do padding para telas pequenas */
+    }
+    .saudacao, .relogio {
+        font-size: 32px; /* Ajusta o tamanho da fonte para telas pequenas */
+    }
+}

@@ -99,8 +99,8 @@ function Home() {
   const serverUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
   return (
-    <div className=''>
-      <div className="cabecalho">
+    <>
+      <div id="cabecalho" className="cabecalho">
         <div id="saudacao" className="saudacao">Sexta-Feira - Boa noite!!!</div>
         <div id="relogio" className="relogio">20:02:07</div>
       </div>
@@ -143,7 +143,7 @@ function Home() {
         </div>
 
       </div>
-    </div>
+    </>
   );
 }
 
