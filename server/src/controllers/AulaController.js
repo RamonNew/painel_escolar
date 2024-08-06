@@ -10,36 +10,37 @@ class AulaController {
         const hora = agora.getHours();
         const periodos = [];
         
-        if (hora < 13){
+        if (hora < 13) {
             periodos.push('manha');
-        }else if(hora < 18){
+        } else if (hora < 18) {
             periodos.push('tarde');
-        }else{
+        } else {
             periodos.push('noite');
         }
 
         const data =  `${ano}-${mes}-${dia}`;
         try {
-            const [status, resposta] = await AulaModel.mostrarAulas(data,data,periodos);
+            const [status, resposta] = await AulaModel.mostrarAulas(data, data, periodos);
             res.status(status).json(resposta);
         } catch (error) {
-            
+            console.debug(error);
+            res.status(500).json({ error: 'Erro ao consultar aulas' });
         }
     }
-
 
     async readAulasPorDataEPeriodo(req, res) {
         console.debug('Consultando aulas por data e período informados:');
         
-        const { dataInicio, dataFim, periodos } = req.body;
+        const { dataInicio, dataFim, periodos, turma } = req.body;
     
         // Verifica se os parâmetros obrigatórios estão presentes
-        if (!dataInicio || !dataFim || !Array.isArray(periodos) || periodos.length === 0) {
-            return res.status(400).json({ error: 'Parâmetros dataInicio, dataFim e periodos são obrigatórios e periodos deve ser um array não vazio.' });
+        if (!dataInicio || !dataFim) {
+            return res.status(400).json({ error: 'Parâmetros dataInicio e dataFim são obrigatórios.' });
         }
-    
+
         try {
-            const [status, resposta] = await AulaModel.mostrarAulas(dataInicio, dataFim, periodos);
+            // Chama o modelo passando os parâmetros opcionais
+            const [status, resposta] = await AulaModel.mostrarAulas(dataInicio, dataFim, periodos || [], turma || '');
             res.status(status).json(resposta);
         } catch (error) {
             console.debug(error);
@@ -49,7 +50,7 @@ class AulaController {
 
     async atualizarAula(req, res) {
         console.debug('Atualizando aula:');
-        const {id} = req.params;
+        const { id } = req.params;
         const { instrutor, unidade_curricular, ambiente } = req.body;
         
         // Verifica se o parâmetro id está presente

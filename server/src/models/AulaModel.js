@@ -6,7 +6,7 @@ class AulaModel {
         this.conexao = mysql.createPool(db);
     }
 
-    async mostrarAulas(dataInicio, dataFim, periodos) {
+    async mostrarAulas(dataInicio, dataFim, periodos = [], turma = '') {
         let sql = 'SELECT * FROM aulas WHERE data BETWEEN ? AND ?';
         const params = [dataInicio, dataFim];
 
@@ -26,6 +26,11 @@ class AulaModel {
 
             sql += periodoClauses.join(' OR ');
             sql += ')';
+        }
+
+        if (turma) {
+            sql += ' AND turma LIKE ?';
+            params.push(`%${turma}%`);
         }
 
         sql += ' ORDER BY data_hora_inicio, instrutor';

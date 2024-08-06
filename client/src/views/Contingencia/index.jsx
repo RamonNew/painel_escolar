@@ -10,6 +10,7 @@ function Contingencia() {
     tarde: false,
     noite: false,
   });
+  const [turmaFiltro, setTurmaFiltro] = useState(''); // Novo estado para o filtro de turma
   const [login, setLogin] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -36,10 +37,7 @@ function Contingencia() {
     const periodosSelecionados = Object.entries(periodosFiltro)
       .filter(([periodo, selecionado]) => selecionado)
       .map(([periodo]) => periodo);
-    if (periodosSelecionados.length === 0) {
-      alert('Selecione pelo menos um período');
-      return;
-    }
+    
     try {
       const response = await fetch('/aulas/data-periodo', {
         method: 'POST',
@@ -49,7 +47,8 @@ function Contingencia() {
         body: JSON.stringify({
           dataInicio: dataInicioFiltro,
           dataFim: dataFimFiltro,
-          periodos: periodosSelecionados
+          periodos: periodosSelecionados,
+          turma: turmaFiltro // Adiciona o filtro de turma à requisição
         })
       });
       if (!response.ok) {
@@ -114,13 +113,6 @@ function Contingencia() {
     });
   }
 
-  const motivos = [
-    { value: 1, label: 'Falta de Agendamento' },
-    { value: 2, label: 'Ambiente com Defeito' },
-    { value: 3, label: 'Falha agendamento SPE' },
-    { value: 4, label: 'Outros' }
-  ];
-
   return (
     <div className='px-2'>
       {isLoggedIn && <div>Bem-Vindo, {login} <br />Essas informações <font color='red'>PODEM</font> ser acessadas por você</div>}
@@ -128,7 +120,6 @@ function Contingencia() {
         <div id='filtros' className='col-4'>
           <form className='filtros mt-3' onSubmit={filtrarAulas}>
             <div className='row'>
-
               <label className='fw-bold col'>
                 Data Início:
                 <input
@@ -180,9 +171,22 @@ function Contingencia() {
                 />
                 Noite
               </label>
-
-              <button className='ms-1 my-2 btn btn-primary col' type="submit">Filtrar</button>
-
+            </div>
+            <div className='row align-items-center'>
+              <div className="col">
+                <label className='fw-bold col'>
+                  Turma:
+                  <input
+                    className="form-control"
+                    type="text"
+                    value={turmaFiltro}
+                    onChange={(e) => setTurmaFiltro(e.target.value)} // Atualiza o estado do filtro de turma
+                  />
+                </label>
+              </div>
+              <div className="col-auto">
+                <button className='ms-1 btn btn-primary' type="submit">Filtrar</button>
+              </div>
             </div>
           </form>
         </div>
