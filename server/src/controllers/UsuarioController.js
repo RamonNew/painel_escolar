@@ -1,7 +1,11 @@
 import UsuarioModel from '../models/UsuarioModel.js';
 import jwt from 'jsonwebtoken';
 
-const secret = "Minha$enha#";
+import { configDotenv } from "dotenv";
+
+configDotenv();
+
+const secret = process.env.SECRET_KEY;
 
 class UsuarioController {
     async index(req, res) {
