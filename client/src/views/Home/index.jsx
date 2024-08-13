@@ -9,11 +9,14 @@ function Home() {
 
   useEffect(() => {
     document.title = "Agenda de Salas SENAI Vitória";
-    new FuncoesExibir();
+    const funcoes = new FuncoesExibir();
     listarAulas();
     listarAnuncios();
 
-    const intervalId = setInterval(listarAulas, 30000); // Atualiza a cada 1 minuto (60000 ms)
+    const intervalId = setInterval(() => {
+      listarAulas();
+      funcoes.saudacaoHora(); // Chama a função no mesmo intervalo que busca aulas
+    }, 30000); // Atualiza a cada 30 segundos
 
     return () => clearInterval(intervalId); // Limpa o intervalo quando o componente é desmontado
 
