@@ -2,15 +2,16 @@ import AulaModel from "../models/AulaModel.js";
 
 class AulaController {
     async readAulas(req, res) {
-        console.debug('Consultando aulas:')
+        console.debug('Consultando aulas:');
         const agora = new Date();
         const ano = agora.getFullYear();
         const mes = String(agora.getMonth() + 1).padStart(2, '0'); // Mês começa em 0, então adicionamos 1
         const dia = String(agora.getDate()).padStart(2, '0');
         const hora = agora.getHours();
+        const minutos = agora.getMinutes();
         const periodos = [];
-        
-        if (hora < 13) {
+
+        if (hora < 12 || (hora === 12 && minutos <= 30)) {
             periodos.push('manha');
         } else if (hora < 18) {
             periodos.push('tarde');
@@ -18,7 +19,7 @@ class AulaController {
             periodos.push('noite');
         }
 
-        const data =  `${ano}-${mes}-${dia}`;
+        const data = `${ano}-${mes}-${dia}`;
         try {
             const [status, resposta] = await AulaModel.mostrarAulas(data, data, periodos);
             res.status(status).json(resposta);
@@ -30,9 +31,9 @@ class AulaController {
 
     async readAulasPorDataEPeriodo(req, res) {
         console.debug('Consultando aulas por data e período informados:');
-        
+
         const { dataInicio, dataFim, periodos, turma } = req.body;
-    
+
         // Verifica se os parâmetros obrigatórios estão presentes
         if (!dataInicio || !dataFim) {
             return res.status(400).json({ error: 'Parâmetros dataInicio e dataFim são obrigatórios.' });
@@ -52,7 +53,7 @@ class AulaController {
         console.debug('Atualizando aula:');
         const { id } = req.params;
         const { instrutor, unidade_curricular, ambiente } = req.body;
-        
+
         // Verifica se o parâmetro id está presente
         if (!id) {
             return res.status(400).json({ error: 'O parâmetro id é obrigatório.' });
