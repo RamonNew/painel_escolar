@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode'; // Importação corrigida
 
 function Navbar() {
     const [nome, setNome] = useState('Painel');
+    const [usuarioTipo, setUsuarioTipo] = useState(null); // Estado para armazenar o tipo de usuário
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,6 +19,8 @@ function Navbar() {
                 localStorage.removeItem("token");
                 navigate("/logar");
             }
+        } else {
+            navigate("/logar"); // Redireciona se não houver token
         }
     }, [navigate]);
 
@@ -35,6 +38,7 @@ function Navbar() {
 
             const dados = await resposta.json();
             setNome(dados.nome);
+            setUsuarioTipo(dados.usuario_tipo); // Armazena o tipo de usuário
         } catch (error) {
             console.error("Erro ao carregar nome do usuário:", error);
             localStorage.removeItem("token");
@@ -65,9 +69,12 @@ function Navbar() {
                         <li className="nav-item">
                             <a href="/gerenciarcsv" className="nav-link">CSV</a>
                         </li>
-                        <li className="nav-item">
-                            <a href="/gestaoUsuario" className="nav-link">Usuários</a>
-                        </li>
+                        {/* Renderiza o item de menu "Gestão de Usuários" apenas se usuario_tipo for "A" */}
+                        {usuarioTipo === 'A' && (
+                            <li className="nav-item">
+                                <a href="/gestaoUsuario" className="nav-link">Usuários</a>
+                            </li>
+                        )}
                     </ul>
                 </div>
                 <button className="btn btn-danger me-5" onClick={handleLogout}>Logout</button>

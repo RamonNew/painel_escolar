@@ -71,7 +71,7 @@ class UsuarioController {
     async update(req, res) {
         const { usuario_id } = req.params;
         const { nome, usuario, senha, usuario_tipo } = req.body;
-
+        console.debug(senha);
         try {
             const [status, resposta] = await UsuarioModel.atualizarUsuario(usuario_id, nome, usuario, senha, usuario_tipo);
             console.debug("Usuário atualizado com sucesso");

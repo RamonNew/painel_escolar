@@ -78,16 +78,34 @@ img{
 
 /* Media Query para dispositivos móveis */
 @media (max-width: 768px) {
+    #relogio{
+        display: none;
+    }
     .lateral {
         display: none; /* Oculta a div lateral em telas pequenas */
-    }
-    .aulas {
-        width: 100%; /* Faz a tabela ocupar 100% da largura */
     }
     .cabecalho {
         padding: 10px 20px; /* Ajuste do padding para telas pequenas */
     }
-    .saudacao, .relogio {
+    .saudacao {
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
         font-size: 32px; /* Ajusta o tamanho da fonte para telas pequenas */
     }
+
+    #tabelaAulas {
+        width: 100%;
+        overflow-x: auto; /* Permite a rolagem horizontal se necessário */
+        display: block; /* Garante que a tabela se adapte ao tamanho da tela */
+    }
+
+    .aulas{
+        width: 100%;
+    }
+
+
+
+
+
 }

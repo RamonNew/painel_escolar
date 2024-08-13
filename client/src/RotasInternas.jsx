@@ -16,7 +16,7 @@ function RotasInternas() {
             <Routes>
                 <Route path='/adicionarUsuario' element={<AddUsuario />} />
                 <Route path='/gestaoUsuario' element={<GestaoUsuarios />} />
-                <Route path='/editUsuario/:id' element={<EditUsuario />} />
+                <Route path='/editUsuario/' element={<EditUsuario />} />
                 <Route path='/contingencia' element={<Contingencia />} />
                 <Route path='/gerenciarimagens' element={<GerenciarImagens />} />
                 <Route path='/gerenciarcsv' element={<GerenciarCSV />} />

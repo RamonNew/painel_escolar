@@ -1,45 +1,29 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';  // Importa useParams para capturar o ID da URL
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function EditUsuario() {
-    const { id } = useParams();  // Extrai o 'id' do usuário da URL
+    const navigate = useNavigate();  // Para redirecionar após atualização
+    const location = useLocation();  // Hook para acessar o estado
+    const { usuario } = location.state || {};  // Extrai os dados do usuário do estado ou usa um objeto vazio
 
-    // Estados para armazenar os detalhes do usuário
-    const [nome, setNome] = useState('');
-    const [usuario, setUsuario] = useState('');
+    const [nome, setNome] = useState(usuario?.nome || '');
+    const [usuarioNome, setUsuarioNome] = useState(usuario?.usuario || '');  // Renomeado para evitar conflito de nomes
     const [senha, setSenha] = useState('');
-    const [usuario_tipo, setUsuarioTipo] = useState('');
-    const [loading, setLoading] = useState(true);  // Controle do estado de carregamento
+    const [usuario_tipo, setUsuarioTipo] = useState(usuario?.usuario_tipo || '');
+    const [loading, setLoading] = useState(false);  // Estado de carregamento, mas aqui inicia como falso
 
     useEffect(() => {
-        // Função para carregar os dados do usuário da API ao montar o componente
-        async function buscarUsuario() {
-            try {
-                const resposta = await fetch(`/usuarios/${id}`);  // Requisição GET para a API
-                const dados = await resposta.json();
-                if (resposta.ok) {
-                    setNome(dados.nome);
-                    setUsuario(dados.usuario);
-                    setUsuarioTipo(dados.usuario_tipo);
-                    // A senha não é carregada por razões de segurança
-                } else {
-                    throw new Error('Falha ao carregar dados do usuário');
-                }
-            } catch (error) {
-                console.error('Erro ao buscar os dados do usuário:', error);
-            }
-            setLoading(false);  // Indica que o carregamento foi concluído
+        // Redireciona para "contingencia" se o estado 'usuario' não estiver presente
+        if (!usuario) {
+            navigate('/contingencia');
         }
+    }, [usuario, navigate]);
 
-        buscarUsuario();
-    }, [id]);  // Dependência do useEffect para recarregar quando o ID muda
-
-    // Função para lidar com a submissão do formulário e atualização do usuário
     async function atualizarUsuario(event) {
         event.preventDefault();  // Previne o recarregamento da página
-        const usuarioData = { nome, usuario, senha, usuario_tipo };
+        const usuarioData = { nome, usuario: usuarioNome, senha, usuario_tipo };
         try {
-            const resposta = await fetch(`/usuarios/${id}`, {
+            const resposta = await fetch(`/usuarios/${usuario.usuario_id}`, {
                 method: 'PUT',  // Método HTTP para atualização
                 headers: {
                     'Content-Type': 'application/json'
@@ -50,7 +34,7 @@ function EditUsuario() {
                 throw new Error('Erro ao atualizar usuário');
             } else {
                 alert('Usuário Atualizado');
-                window.location.href = '/';  // Redireciona para a página inicial após a atualização
+                navigate('/gestaoUsuario');  // Redireciona para a página de gestão de usuários após a atualização
             }
         } catch (error) {
             console.error('Erro ao atualizar o usuário:', error);
@@ -62,22 +46,42 @@ function EditUsuario() {
     }
 
     return (
-        <div className='container'>
-            <h1>Editar Usuário</h1>
+        <div className='container justify-content-center col-5'>
+            <h1 className='text-center'>Editar Usuário</h1>
             <form onSubmit={atualizarUsuario}>
                 <label>Nome:</label>
-                <input type="text" value={nome} onChange={e => setNome(e.target.value)} />
+                <input
+                    className='form-control'
+                    type="text"
+                    value={nome}
+                    onChange={e => setNome(e.target.value)}
+                />
                 <label>Usuário:</label>
-                <input type="text" value={usuario} onChange={e => setUsuario(e.target.value)} />
+                <input
+                    className='form-control'
+                    type="text"
+                    value={usuarioNome}
+                    onChange={e => setUsuarioNome(e.target.value)}
+                />
                 <label>Nova Senha:</label>
-                <input type="password" value={senha} onChange={e => setSenha(e.target.value)} />
+                <input
+                    className='form-control'
+                    type="password"
+                    value={senha}
+                    onChange={e => setSenha(e.target.value)}
+                />
                 <label>Tipo de Usuário:</label>
-                <select value={usuario_tipo} onChange={e => setUsuarioTipo(e.target.value)}>
+                <select
+                    className='form-select'
+                    value={usuario_tipo}
+                    onChange={e => setUsuarioTipo(e.target.value)}
+                >
                     <option value="">Selecione</option>
                     <option value="A">Admin</option>
                     <option value="U">Usuário</option>
                 </select>
-                <button type='submit'>Atualizar Usuário</button>
+                <a className='btn btn-danger mt-2 float-middle' href="/gestaoUsuario">Cancelar</a>
+                <button className='btn btn-primary mt-2 float-end' type='submit'>Atualizar Usuário</button>
             </form>
         </div>
     );
