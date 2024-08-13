@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react';
-//import './Home.css'
 import FuncoesExibir from './funcoesExibir';
 
 function Home() {
@@ -15,42 +14,45 @@ function Home() {
 
     const intervalId = setInterval(() => {
       listarAulas();
+      listarAnuncios(); // Verifica também as imagens
       funcoes.saudacaoHora(); // Chama a função no mesmo intervalo que busca aulas
-    }, 30000); // Atualiza a cada 30 segundos
+    }, 20000); // Atualiza a cada 30 segundos
 
     return () => clearInterval(intervalId); // Limpa o intervalo quando o componente é desmontado
 
   }, []);
 
-  async function listarAnuncios(){
+  async function listarAnuncios() {
     try {
       // Faz a chamada para a API através do proxy
-      const resposta = await fetch('/imagens')
+      const resposta = await fetch('/imagens');
       if (!resposta.ok) {
         throw new Error(`HTTP error! status: ${resposta.status}`);
       }
       const dados = await resposta.json();
 
+      console.debug(dados);
 
-      console.debug(dados)
-      setImagens(dados);
+      // Verifica se as novas imagens são diferentes das atuais
+      const imagensDiferentes = JSON.stringify(dados) !== JSON.stringify(imagens);
+      if (imagensDiferentes) {
+        setImagens(dados);
+      }
     } catch (erro) {
       throw new Error('Erro na consulta!' + erro);
     }
   }
 
-
   async function listarAulas() {
     try {
       // Faz a chamada para a API através do proxy
-      const resposta = await fetch('/aulas')
+      const resposta = await fetch('/aulas');
       if (!resposta.ok) {
         throw new Error(`HTTP error! status: ${resposta.status}`);
       }
       const dados = await resposta.json();
 
-
-      console.debug(dados)
+      console.debug(dados);
       setAulas(dados);
     } catch (erro) {
       throw new Error('Erro na consulta!' + erro);
@@ -73,7 +75,6 @@ function Home() {
     }
     return pieces[0] + ' ' + pieces[pieces.length - 1];
   }
-
 
   function uniName(name) {
     name = name.toUpperCase();
@@ -135,16 +136,26 @@ function Home() {
           </table>
         </div>
         <div id="lateral" className="lateral">
-          {imagens.map((i,index) => (
+          {imagens.map((i, index) => (
             <>
-            {index === 1 && <iframe id='youtube-iframe' className="imganun" src="https://www.youtube.com/embed/videoseries?loop=1&autoplay=1&mute=0&list=PLQjyOwYs8LxLFm0XJuw-_IGOxrFCjD2NE" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen style={{ width: "100%", maxHeight: "100%" }}></iframe>}
-            <div key={i.id}>
-              <img src={`${serverUrl}/public/${i.caminho}`} alt={i.alt} className="imganun" />
-            </div>
+              <div key={i.id}>
+                <img src={`${serverUrl}/public/${i.caminho}`} alt={i.alt} className="imganun" />
+              </div>
+              {index === 0 && (
+                <iframe
+                  id='youtube-iframe'
+                  className="imganun"
+                  src="https://www.youtube.com/embed/videoseries?loop=1&autoplay=1&mute=0&list=PLQjyOwYs8LxLFm0XJuw-_IGOxrFCjD2NE"
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ width: "100%", maxHeight: "100%" }}
+                ></iframe>
+              )}
             </>
           ))}
         </div>
-
       </div>
     </>
   );
