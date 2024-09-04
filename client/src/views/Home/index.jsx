@@ -1,5 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
-import FuncoesExibir from './funcoesExibir';
+import Relogio from '../../components/Relogio';
+import Saudacao from '../../components/Saudacao';
+import Ambiente from '../../components/Ambiente';
+import AbreviaUC from '../../components/AbreviaUC';
+
 
 function Home() {
   let [aulas, setAulas] = useState([]);
@@ -8,14 +12,14 @@ function Home() {
 
   useEffect(() => {
     document.title = "Agenda de Salas SENAI Vitória";
-    const funcoes = new FuncoesExibir();
+    //const funcoes = new FuncoesExibir();
     listarAulas();
     listarAnuncios();
 
     const intervalId = setInterval(() => {
       listarAulas();
       listarAnuncios(); // Verifica também as imagens
-      funcoes.saudacaoHora(); // Chama a função no mesmo intervalo que busca aulas
+      //funcoes.saudacaoHora(); // Chama a função no mesmo intervalo que busca aulas
     }, 20000); // Atualiza a cada 30 segundos
 
     return () => clearInterval(intervalId); // Limpa o intervalo quando o componente é desmontado
@@ -76,37 +80,13 @@ function Home() {
     return pieces[0] + ' ' + pieces[pieces.length - 1];
   }
 
-  function uniName(name) {
-    name = name.toUpperCase();
-    const pieces = name.split(" ");
-    if (pieces.length === 1) {
-      return name; // Retorna o nome se for apenas uma palavra
-    }
-    const abrev = pieces[0].substring(0, 4);
-    // Remove os dois últimos elementos do array
-    pieces.splice(-2, 2);
-    return abrev + ". " + pieces.pop();
-  }
-
-  function ambName(name) {
-    name = name.toUpperCase();
-    const pieces = name.split("-");
-    if (pieces.length <= 2) {
-      return name; // Retorna o nome se não houver prefixo suficiente para remover
-    }
-    // Remove os dois primeiros elementos do array
-    pieces.shift();
-    pieces.shift();
-    return pieces.join("-");
-  }
-
   const serverUrl = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
 
   return (
     <>
       <div id="cabecalho" className="cabecalho">
-        <div id="saudacao" className="saudacao">Sexta-Feira - Boa noite!!!</div>
-        <div id="relogio" className="relogio">20:02:07</div>
+        <Saudacao/>
+        <Relogio/>
       </div>
       <div className="conteudo">
         <div className="aulas">
@@ -128,8 +108,9 @@ function Home() {
                   <td>{formatarHora(aula.data_hora_fim)}</td>
                   <td>{aula.turma.toUpperCase()}</td>
                   <td>{splitName(aula.instrutor)}</td>
-                  <td>{uniName(aula.unidade_curricular)}</td>
-                  <td>{ambName(aula.ambiente)}</td>
+                  {/* <td>{uniName(aula.unidade_curricular)}</td> */}
+                  <td><AbreviaUC nomeUC={aula.unidade_curricular} /></td>
+                  <td><Ambiente nomeAmbiente={aula.ambiente} /></td>
                 </tr>
               ))}
             </tbody>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode'; // Importação corrigida
 
 function Navbar() {
@@ -58,21 +58,21 @@ function Navbar() {
                 <div className="collapse navbar-collapse justify-content-center px-2" id="menu">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a href="/" className="nav-link">Inicio</a>
+                            <Link to="/" className="nav-link">Inicio</Link>
                         </li>
                         <li className="nav-item">
-                            <a href="/contingencia" className="nav-link">Aulas</a>
+                            <Link to="/contingencia" className="nav-link">Aulas</Link>
                         </li>
                         <li className="nav-item">
-                            <a href="/gerenciarimagens" className="nav-link">Anúncios</a>
+                            <Link to="/gerenciarimagens" className="nav-link">Anúncios</Link>
                         </li>
                         <li className="nav-item">
-                            <a href="/gerenciarcsv" className="nav-link">CSV</a>
+                            <Link to="/gerenciarcsv" className="nav-link">CSV</Link>
                         </li>
                         {/* Renderiza o item de menu "Gestão de Usuários" apenas se usuario_tipo for "A" */}
                         {usuarioTipo === 'A' && (
                             <li className="nav-item">
-                                <a href="/gestaoUsuario" className="nav-link">Usuários</a>
+                                <Link to="/gestaoUsuario" className="nav-link">Usuários</Link>
                             </li>
                         )}
                     </ul>
