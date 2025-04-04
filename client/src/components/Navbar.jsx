@@ -72,6 +72,9 @@ function Navbar() {
                         <li className="nav-item">
                             <Link to="/adicionaraulas" className="nav-link">AdicionarAulas</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link to="/impressao" className="nav-link">AdicionarAulas</Link>
+                        </li>
                         {/* Renderiza o item de menu "Gestão de Usuários" apenas se usuario_tipo for "A" */}
                         {usuarioTipo === 'A' && (
                             <li className="nav-item">
