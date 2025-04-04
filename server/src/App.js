@@ -7,6 +7,7 @@ import AulaController from './controllers/AulaController.js';
 import ImagemController from './controllers/ImagemController.js';
 import CSVController from './controllers/CSVController.js';
 import UsuarioController from './controllers/UsuarioController.js';
+import AmbienteController from './controllers/AmbienteController.js';
 
 // For parsing application/json
 app.use(express.json());
@@ -27,7 +28,8 @@ app.use(express.urlencoded({ extended: false }));
 
 
 //CRUD Professor
-app.get("/aulas",AulaController.readAulas);
+app.get("/aulas", AulaController.readAulas);
+app.post("/aulas",AulaController.createAula);
 app.put('/aulas/:id', AulaController.atualizarAula);
 app.post('/aulas/data-periodo', AulaController.readAulasPorDataEPeriodo);
 app.put('/chave/:id', AulaController.atualizarChave);
@@ -50,6 +52,10 @@ app.post("/usuarios", UsuarioController.create);
 app.put("/usuarios/:usuario_id", UsuarioController.update);
 app.delete("/usuarios/:usuario_id", UsuarioController.destroy);
 app.post("/logar", UsuarioController.logar);
+
+
+//Ambientes
+app.post("/ambientes/disponiveis", AmbienteController.buscarAmbientesDisponiveis);
 
 
 // Rota para servir as imagens

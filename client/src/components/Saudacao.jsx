@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-
+let saudacao = ''
 function Saudacao() {
     useEffect(()=>{
         saudacaoHora();
@@ -8,7 +8,9 @@ function Saudacao() {
     function saudacaoHora() {
         const hoje = new Date()
         const hora = hoje.getHours()
-        const saudacao = document.getElementById("saudacao")
+        //const saudacao = document.getElementById("saudacao")
+        //let saudacao = ''
+        saudacao = '';
         const dia = hoje.getDay()
         const diaSemana = ["Domingo",
             "Segunda-Feira",
@@ -18,20 +20,25 @@ function Saudacao() {
             "Sexta-Feira",
             "Sábado"]
 
-        saudacao.innerHTML = diaSemana[dia]
+        //saudacao.innerHTML = diaSemana[dia]
+        saudacao += diaSemana[dia]
         if (hora >= 18) {
-            saudacao.innerHTML += " - Boa Noite"
+            saudacao += " - Boa Noite"
+            //saudacao.innerHTML += " - Boa Noite"
         } else if (hora >= 12) {
-            saudacao.innerHTML += " - Boa Tarde"
+            saudacao += " - Boa Tarde"
+            //saudacao.innerHTML += " - Boa Tarde"
         } else if (hora >= 6) {
-            saudacao.innerHTML += " - Bom Dia"
+            saudacao += " - Bom Dia"
+            //saudacao.innerHTML += " - Bom Dia"
         } else {
-            saudacao.innerHTML += " - Boa Madrugada"
+            saudacao += " - Boa Madrugada"
+            //saudacao.innerHTML += " - Boa Madrugada"
         }
         setTimeout(() => saudacaoHora(), 1000);
     }
     return (
-        <div id="saudacao" className="saudacao">Sexta-Feira - Boa noite!!!</div>
+        <div id="saudacao" className="saudacao">{saudacao}</div>
     )
 }
 

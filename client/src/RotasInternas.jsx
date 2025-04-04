@@ -7,6 +7,8 @@ import Contingencia from './views/Contingencia';
 import GerenciarImagens from './views/GerenciarImagens';
 import GerenciarCSV from './views/GerenciarCSV';
 import RequireAuth from './components/RequireAuth'
+import AdicionarAulas from './views/AdicionarAulas';
+import Ambientes from './views/Ambientes';
 
 function RotasInternas() {
     return (
@@ -19,7 +21,9 @@ function RotasInternas() {
                 <Route path='/editUsuario/' element={<EditUsuario />} />
                 <Route path='/contingencia' element={<Contingencia />} />
                 <Route path='/gerenciarimagens' element={<GerenciarImagens />} />
+                <Route path='/adicionaraulas' element={<AdicionarAulas />} />
                 <Route path='/gerenciarcsv' element={<GerenciarCSV />} />
+                <Route path='/ambientes' element={<Ambientes />} />
             </Routes>
         </div>
     )

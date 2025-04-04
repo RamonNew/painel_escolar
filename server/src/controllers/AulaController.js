@@ -1,6 +1,41 @@
 import AulaModel from "../models/AulaModel.js";
 
 class AulaController {
+
+    // Método para criar uma nova aula
+    async createAula(req, res) {
+        console.debug('Criando nova aula:');
+        const { dataAula, horaInicio, horaFim, turma, instrutor, unidadeCurricular, ambiente } = req.body;
+
+        // Verifica se os parâmetros obrigatórios estão presentes
+        if (!dataAula || !horaInicio || !horaFim || !turma || !instrutor || !unidadeCurricular || !ambiente) {
+            return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+        }
+
+        // Concatenar a data com a hora de início e a hora de fim
+        const dataHoraInicio = `${dataAula} ${horaInicio}`;
+        const dataHoraFim = `${dataAula} ${horaFim}`;
+
+        console.log(dataHoraInicio);
+        console.log(dataHoraFim);
+
+        try {
+            const [status, resposta] = await AulaModel.createAula(
+                dataAula,  // data original, caso ainda precise
+                dataHoraInicio,
+                dataHoraFim,
+                turma,
+                instrutor,
+                unidadeCurricular,
+                ambiente
+            );
+            res.status(status).json(resposta);
+        } catch (error) {
+            console.debug(error);
+            res.status(500).json({ error: 'Erro ao criar aula.' });
+        }
+    }
+
     async readAulas(req, res) {
         console.debug('Consultando aulas:');
         const agora = new Date();

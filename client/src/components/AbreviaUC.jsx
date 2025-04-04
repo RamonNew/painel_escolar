@@ -1,7 +1,7 @@
 function AbreviaUC({nomeUC}) {
   nomeUC = nomeUC.toUpperCase();
     const pieces = nomeUC.split(" ");
-    if (pieces.length === 1) {
+    if (pieces.length <= 2) {
       return nomeUC; // Retorna o nome se for apenas uma palavra
     }
     const abrev = pieces[0].substring(0, 4);
