@@ -20,10 +20,10 @@ class ImagemController {
 
     async create(req, res) {
         const { alternativo } = req.body;
-        const { imagem } = req.files;
+        const { imagem } = req.files || {};
 
         if (!alternativo || !imagem) {
-            return res.status(400).json({ error: 'Os parâmetros alternativo e imagem são obrigatórios.' });
+            return res.status(400).json({ mensagem: 'Os parâmetros alternativo e imagem são obrigatórios.' });
         }
 
         let nomeImagem = imagem.name;

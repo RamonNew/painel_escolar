@@ -1,5 +1,6 @@
 import express from 'express';
 import fileUpload from 'express-fileupload';
+import cors from 'cors';
 const app = express()
 const port = 5000
 
@@ -11,6 +12,8 @@ import AmbienteController from './controllers/AmbienteController.js';
 
 // For parsing application/json
 app.use(express.json());
+
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
