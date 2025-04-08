@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import AbreviaUC from '../../components/AbreviaUC';
+import Ambiente from '../../components/Ambiente';
 //import './Home.css';
 
 function Contingencia() {
@@ -200,8 +202,8 @@ function Contingencia() {
               <th scope="col">Instrutor</th>
               <th scope="col">Unidade Curricular</th>
               <th scope="col">Ambiente</th>
-              <th scope="col">Chave</th>
-              <th scope="col">Salvar</th>
+              <th scope="col" className='printNone'>Chave</th>
+              <th scope="col" className='printNone'>Salvar</th>
             </tr>
           </thead>
           <tbody>
@@ -219,7 +221,8 @@ function Contingencia() {
                     onChange={(e) => setAulas(aulas.map(a => a.id === aula.id ? { ...a, instrutor: e.target.value } : a))}
                   />
                 </td>
-                <td>
+                <td className='apenasImprimir'><AbreviaUC nomeUC={aula.unidade_curricular} /></td>
+                <td className='printNone'>
                   <input
                     name="unidade_curricular"
                     type="text"
@@ -227,7 +230,8 @@ function Contingencia() {
                     onChange={(e) => setAulas(aulas.map(a => a.id === aula.id ? { ...a, unidade_curricular: e.target.value } : a))}
                   />
                 </td>
-                <td>
+                <td className='apenasImprimir'><Ambiente nomeAmbiente={aula.ambiente} /></td>
+                <td className='printNone'>
                   <input
                     name="ambiente"
                     type="text"
@@ -235,14 +239,14 @@ function Contingencia() {
                     onChange={(e) => setAulas(aulas.map(a => a.id === aula.id ? { ...a, ambiente: e.target.value } : a))}
                   />
                 </td>
-                <td>
+                <td className='printNone'>
                   <input
                     type="checkbox"
                     checked={aula.chave}
                     onChange={(e) => atualizarChave(aula.id, e.target.checked)}
                   />
                 </td>
-                <td>
+                <td className='printNone'>
                   <button className='btn btn-success' onClick={() => salvarAula(aula)}>Salvar</button>
                 </td>
               </tr>
