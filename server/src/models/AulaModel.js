@@ -87,15 +87,15 @@ class AulaModel {
 
     if (instrutor) {
       updates.push("instrutor = ?");
-      params.push(instrutor);
+      params.push(instrutor.toUpperCase());
     }
     if (unidade_curricular) {
       updates.push("unidade_curricular = ?");
-      params.push(unidade_curricular);
+      params.push(unidade_curricular.toUpperCase());
     }
     if (ambiente) {
       updates.push("ambiente = ?");
-      params.push(ambiente);
+      params.push(ambiente.toUpperCase());
     }
 
     if (updates.length === 0) {
@@ -107,7 +107,7 @@ class AulaModel {
 
     try {
       const [retorno] = await this.conexao.query(sql, params);
-      return [200, retorno];
+      return [200, {mensagem:"Aula atualizada"}];
     } catch (error) {
       console.debug(error);
       return [400, error];
