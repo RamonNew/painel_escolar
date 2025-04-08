@@ -43,7 +43,8 @@ function Home() {
         setImagens(dados);
       }
     } catch (erro) {
-      throw new Error('Erro na consulta!' + erro);
+      console.log('Erro na consulta!' + erro)
+      //throw new Error('Erro na consulta!' + erro);
     }
   }
 
@@ -52,14 +53,16 @@ function Home() {
       // Faz a chamada para a API através do proxy
       const resposta = await fetch('/aulas');
       if (!resposta.ok) {
-        throw new Error(`HTTP error! status: ${resposta.status}`);
+        console.log('Erro na consulta!' + resposta)
+        //throw new Error(`HTTP error! status: ${resposta.status}`);
       }
       const dados = await resposta.json();
 
       console.debug(dados);
       setAulas(dados);
     } catch (erro) {
-      throw new Error('Erro na consulta!' + erro);
+      console.log('Erro na consulta!' + erro)
+      //throw new Error('Erro na consulta!' + erro);
     }
   }
 
