@@ -52,11 +52,12 @@ function Home() {
     try {
       // Faz a chamada para a API através do proxy
       const resposta = await fetch('/aulas');
+      const dados = await resposta.json();
       if (!resposta.ok) {
-        console.log('Erro na consulta!' + resposta)
+        return console.log(dados)
         //throw new Error(`HTTP error! status: ${resposta.status}`);
       }
-      const dados = await resposta.json();
+      
 
       console.debug(dados);
       setAulas(dados);
