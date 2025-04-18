@@ -7,8 +7,9 @@ const port = 5000
 import AulaController from './controllers/AulaController.js';
 import ImagemController from './controllers/ImagemController.js';
 import CSVController from './controllers/CSVController.js';
-import UsuarioController from './controllers/UsuarioController.js';
+import * as UsuarioController from './controllers/UsuarioController.js';
 import AmbienteController from './controllers/AmbienteController.js';
+import routes from './routes/v2/index.js';
 
 // For parsing application/json
 app.use(express.json());
@@ -63,7 +64,10 @@ app.post("/ambientes/disponiveis", AmbienteController.buscarAmbientesDisponiveis
 
 // Rota para servir as imagens
 app.get("/public/:nomeImagem", ImagemController.mostrarImagem);
-//CRUD Turma
+
+// v2 api routes
+app.use('/v2', routes);
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 });
