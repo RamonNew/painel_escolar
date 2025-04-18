@@ -30,7 +30,7 @@ function AddUsuario() {
 
     try {
       // Realiza POST para a API
-      const resposta = await fetch('/usuarios', {
+      const resposta = await fetch(`${process.env.REACT_APP_API_URL}/users/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json' // Especificando o corpo como JSON

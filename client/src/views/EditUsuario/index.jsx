@@ -23,7 +23,7 @@ function EditUsuario() {
         event.preventDefault();  // Previne o recarregamento da página
         const usuarioData = { nome, usuario: usuarioNome, senha, usuario_tipo };
         try {
-            const resposta = await fetch(`/usuarios/${usuario.usuario_id}`, {
+            const resposta = await fetch(`${process.env.REACT_APP_API_URL}/users/${usuario.usuario_id}`, {
                 method: 'PUT',  // Método HTTP para atualização
                 headers: {
                     'Content-Type': 'application/json'

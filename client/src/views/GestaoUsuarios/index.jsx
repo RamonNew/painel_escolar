@@ -34,7 +34,7 @@ function GestaoUsuarios() {
 
   async function carregarUsuarios() {
     try {
-      const resposta = await fetch("/usuarios");
+      const resposta = await fetch(`${process.env.REACT_APP_API_URL}/users`);
       if (!resposta.ok) {
         throw new Error("Erro requisição: " + resposta.status);
       } else {
@@ -49,7 +49,7 @@ function GestaoUsuarios() {
   async function deletarUsuario(usuario_id) {
     if (window.confirm("Tem certeza que deseja deletar esse usuário?")) {
       try {
-        const resposta = await fetch("/usuarios/" + usuario_id, {
+        const resposta = await fetch(`${process.env.REACT_APP_API_URL}/users/${usuario_id}`,{
           method: "DELETE",
         });
         if (!resposta.ok) {
