@@ -18,7 +18,7 @@ function GerenciarCSV() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('/upload-csv', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/upload-csv`, {
         method: 'POST',
         body: formData,
       });
