@@ -10,7 +10,7 @@ function TelaLogin() {
 
     async function efetuarLogin(){
         try {
-            const resposta = await fetch("/logar",{
+            const resposta = await fetch(`${process.env.REACT_APP_API_URL}/users/logar`,{
                 method: "POST",
                 headers:{
                     'Content-Type':'application/json'
