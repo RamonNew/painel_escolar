@@ -1,1 +1,5 @@
 .env
+/public/img/*
+!/public/img/.gitkeep
+/public/csv/*
+!/public/csv/.gitkeep

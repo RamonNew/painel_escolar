@@ -8,7 +8,7 @@ import CSVModel from '../models/CSVModel.js';
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const csvCaminho = path.join(__dirname, '../public/csv/Consultar-Horário.csv');
+const csvCaminho = path.join(__dirname, '../../public/csv/Consultar-Horário.csv');
 
 const verificaArquivo = async () => {
   console.debug('Verificando existência do arquivo...');

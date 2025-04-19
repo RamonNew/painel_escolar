@@ -20,7 +20,7 @@ function GerenciarImagens() {
 
   async function listarImagens() {
     try {
-      const response = await fetch("/imagens");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/images`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -49,7 +49,7 @@ function GerenciarImagens() {
     formData.append("alternativo", alternativo);
 
     try {
-      const response = await fetch("/imagens", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/images`, {
         method: "POST",
         body: formData,
       });
@@ -84,7 +84,7 @@ function GerenciarImagens() {
 
   async function handleDelete(id) {
     try {
-      const response = await fetch(`/imagens/${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/images/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) {
@@ -153,7 +153,7 @@ function GerenciarImagens() {
           <div className="col-md-4" key={imagem.id}>
             <div className="card mb-4">
               <img
-                src={`${serverUrl}/public/${imagem.caminho}`}
+                src={`${serverUrl}/public/img/${imagem.caminho}`}
                 className="card-img-top img-fix" // Adicionando a classe img-fix
                 alt={imagem.alternativo}
               />

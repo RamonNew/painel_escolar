@@ -43,7 +43,7 @@ class ImagemModel {
     const params = [alternativo, nomeImagem];
     try {
       const [retorno] = await this.conexao.query(sql, params);
-      await arquivo.mv(path.join(__dirname, "../public/img/", nomeImagem));
+      await arquivo.mv(path.join(__dirname, "../../public/img/", nomeImagem));
       return [201, { mensagem: "Imagem inserida com sucesso" }];
     } catch (erro) {
       console.debug(erro);
@@ -91,7 +91,7 @@ class ImagemModel {
       if (retorno.length > 0) {
         const caminho = retorno[0].caminho;
         await this.conexao.query("DELETE FROM anuncios WHERE id = ?", [id]);
-        await fs.unlink(path.join(__dirname, "../public/img/", caminho));
+        await fs.unlink(path.join(__dirname, "../../public/img/", caminho));
         return [200, { mensagem: "Imagem deletada com sucesso" }];
       } else {
         return [404, "Imagem não encontrada"];

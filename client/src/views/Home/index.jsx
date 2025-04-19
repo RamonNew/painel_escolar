@@ -29,7 +29,7 @@ function Home() {
   async function listarAnuncios() {
     try {
       // Faz a chamada para a API através do proxy
-      const resposta = await fetch('/imagens');
+      const resposta = await fetch(`${process.env.REACT_APP_API_URL}/images`);
       if (!resposta.ok) {
         throw new Error(`HTTP error! status: ${resposta.status}`);
       }
@@ -124,7 +124,7 @@ function Home() {
           {imagens.map((i, index) => (
             <>
               <div key={i.id}>
-                <img src={`${serverUrl}/public/${i.caminho}`} alt={i.alt} className="imganun" />
+                <img src={`${serverUrl}/public/img/${i.caminho}`} alt={i.alt} className="imganun" />
               </div>
               {index === 0 && (
                 <iframe
