@@ -50,11 +50,11 @@ app.delete("/imagens/:id", ImagemController.deletar);
 app.post("/upload-csv", CSVController.receberUpload);
 
 // CRUD Usuários
-app.get("/usuarios", UsuarioController.index);
-app.get("/usuarios/:usuario_id", UsuarioController.show);
-app.post("/usuarios", UsuarioController.create);
-app.put("/usuarios/:usuario_id", UsuarioController.update);
-app.delete("/usuarios/:usuario_id", UsuarioController.destroy);
+//app.get("/usuarios", UsuarioController.index);
+//app.get("/usuarios/:usuario_id", UsuarioController.show);
+//app.post("/usuarios", UsuarioController.create);
+//app.put("/usuarios/:usuario_id", UsuarioController.update);
+//app.delete("/usuarios/:usuario_id", UsuarioController.destroy);
 app.post("/logar", UsuarioController.logar);
 
 
