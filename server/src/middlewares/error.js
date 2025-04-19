@@ -3,7 +3,7 @@ import httpStatus from 'http-status';
 //import logger from '../config/logger.js';
 import ApiError from '../utils/ApiError.js';
 
-const errorConverter = (err, req, res, next) => {
+export const errorConverter = (err, req, res, next) => {
   let error = err;
 
   if (!(error instanceof ApiError)) {
@@ -15,7 +15,7 @@ const errorConverter = (err, req, res, next) => {
   next(error);
 };
 
-const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, req, res, next) => {
   let { statusCode, message } = err;
 
 //   if (config?.env === 'production' && !err.isOperational) {
@@ -26,7 +26,7 @@ const errorHandler = (err, req, res, next) => {
   res.locals.errorMessage = err.message;
 
   const response = {
-    code: statusCode,
+    //code: statusCode,
     message,
    // ...(config?.env === 'development' && { stack: err.stack }),
   };
@@ -38,4 +38,4 @@ const errorHandler = (err, req, res, next) => {
   res.status(statusCode).json(response);
 };
 
-export { errorConverter, errorHandler };
+//export { errorConverter, errorHandler };

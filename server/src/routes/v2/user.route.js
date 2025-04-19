@@ -14,4 +14,4 @@ userRoute.route("/:usuario_id")
     .put(update)
     .delete(destroy);
     
-export default userRoute;
+//export default userRoute;
