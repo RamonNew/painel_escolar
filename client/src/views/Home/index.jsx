@@ -51,7 +51,7 @@ function Home() {
   async function listarAulas() {
     try {
       // Faz a chamada para a API através do proxy
-      const resposta = await fetch('/aulas');
+      const resposta = await fetch(`${process.env.REACT_APP_API_URL}/classes`);
       const dados = await resposta.json();
       if (!resposta.ok) {
         return console.log(dados)

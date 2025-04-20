@@ -4,8 +4,7 @@ import cors from 'cors';
 const app = express()
 const port = 5000
 
-import AulaController from './controllers/AulaController.js';
-import AmbienteController from './controllers/AmbienteController.js';
+//import AmbienteController from './controllers/AmbienteController.js';
 import {routes} from './routes/v2/index.js';
 import { errorConverter, errorHandler } from './middlewares/error.js';
 import path from 'path';
@@ -23,28 +22,16 @@ app.get('/', (req, res) => {
   res.send('API Painel Escolar - Versão 2.0')
 })
 
-
 // Fazer uso do file upload
 app.use(fileUpload());
 
 // For parsing application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 
-
-//CRUD Professor
-app.get("/aulas", AulaController.readAulas);
-app.post("/aulas",AulaController.createAula);
-app.put('/aulas/:id', AulaController.atualizarAula);
-app.post('/aulas/data-periodo', AulaController.readAulasPorDataEPeriodo);
-app.put('/chave/:id', AulaController.atualizarChave);
-
-
 //Ambientes
-app.post("/ambientes/disponiveis", AmbienteController.buscarAmbientesDisponiveis);
+//app.post("/ambientes/disponiveis", AmbienteController.buscarAmbientesDisponiveis);
 
-
-// Rota para servir as imagens
-//app.get("/public/:nomeImagem", ImagemController.mostrarImagem);
+//
 app.use('/public/',express.static(path.join(__dirname,'..','public')));
 
 // v2 api routes

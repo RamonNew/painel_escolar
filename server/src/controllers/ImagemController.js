@@ -102,16 +102,3 @@ export const deletar = async (req, res) => {
     res.status(500).json({ error: 'Erro ao deletar imagem' });
   }
 };
-
-// // GET /imagens/mostrar/:nomeImagem
-// export const mostrarImagem = async (req, res) => {
-//   const { nomeImagem } = req.params;
-//   const filePath = path.join(__dirname, '../public/img/', nomeImagem);
-
-//   res.sendFile(filePath, (err) => {
-//     if (err) {
-//       console.debug(err);
-//       res.status(404).json({ error: 'Imagem não encontrada' });
-//     }
-//   });
-// };

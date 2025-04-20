@@ -76,6 +76,13 @@ CREATE TABLE `usuarios` (
 INSERT INTO usuarios (nome,usuario,senha,usuario_tipo,password_updated_at) VALUES(
  'admin', 'admin', '$2a$10$8pTFie6EdBEsGt50V6V6ROyT1Lrq./ZvFlrsFCRBRWLHglB6SIhG2', 'A', '2024-07-28 23:34:29'
 );
+
+CREATE TABLE `ambientes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 -- USUÁRIO PADRÃO admin SENHA padrão @*123
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

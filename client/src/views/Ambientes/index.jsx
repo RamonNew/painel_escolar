@@ -14,7 +14,7 @@ function Ambientes() {
     }
 
     try {
-      const response = await fetch('/ambientes/disponiveis', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/rooms/available`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

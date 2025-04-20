@@ -31,7 +31,7 @@ function Contingencia() {
 
   async function listarAulas() {
     try {
-      const response = await fetch("/aulas");
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/classes`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -49,7 +49,7 @@ function Contingencia() {
       .map(([periodo]) => periodo);
 
     try {
-      const response = await fetch("/aulas/data-periodo", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/classes/date-period`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,7 +73,7 @@ function Contingencia() {
 
   async function salvarAula(aula) {
     try {
-      const response = await fetch(`/aulas/${aula.id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/classes/${aula.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -102,7 +102,7 @@ function Contingencia() {
 
   async function atualizarChave(id, chave) {
     try {
-      const response = await fetch(`/chave/${id}/`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/classes/door-key/${id}/`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

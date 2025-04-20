@@ -36,7 +36,7 @@ function AdicionarAulas() {
 
     try {
       // Fazendo POST para a API
-      const resposta = await fetch('/aulas', {
+      const resposta = await fetch(`${process.env.REACT_APP_API_URL}/classes/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json' // Definindo o corpo como JSON
