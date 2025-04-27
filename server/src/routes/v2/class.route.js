@@ -1,18 +1,18 @@
 import express from 'express';
 import {
-  createAula,
-  readAulas,
-  readAulasPorDataEPeriodo,
-  atualizarAula,
-  atualizarChave
-} from '../../controllers/AulaController.js';
+  createClass,
+  readClasses,
+  readClassesByDateAndPeriod,
+  updateClass,
+  updateKey
+} from '../../controllers/class.controller.js';
 
 export const classRoute = express.Router();
 
 classRoute.route('/')
-  .get(readAulas)
-  .post(createAula);
+  .get(readClasses)
+  .post(createClass);
 
-classRoute.post('/date-period', readAulasPorDataEPeriodo);
-classRoute.put('/:id', atualizarAula);
-classRoute.put('/door-key/:id', atualizarChave);
+classRoute.post('/date-period', readClassesByDateAndPeriod);
+classRoute.put('/:id', updateClass);
+classRoute.put('/door-key/:id', updateKey);
