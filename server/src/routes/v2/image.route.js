@@ -6,7 +6,7 @@ import {
   atualizar,
   deletar,
  // mostrarImagem
-} from '../../controllers/ImagemController.js';
+} from '../../controllers/image.controller.js';
 
 export const imageRoute = express.Router();
 
