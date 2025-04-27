@@ -1,10 +1,10 @@
 import express from "express";
 import validate from "../../middlewares/validate.js";
-import { receberUpload } from "../../controllers/CSVController.js";
+import { uploadCsv } from "../../controllers/csv.controller.js";
 
 export const csvRoute = express.Router();
 
 csvRoute.route("/")
-    .post(receberUpload);
+    .post(uploadCsv);
 
 //export default csvRoute;

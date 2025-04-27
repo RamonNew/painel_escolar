@@ -41,7 +41,7 @@ export const create = catchAsync(async (req, res) => {
     alternativo,
     nomeImagem
   );
-  res.status(status || httpStatus.CREATED).json(resposta);
+  res.status(httpStatus.CREATED).json(resposta);
 });
 
 export const readPorId = catchAsync(async (req, res) => {
@@ -52,7 +52,7 @@ export const readPorId = catchAsync(async (req, res) => {
   }
 
   const [status, resposta] = await ImagemModel.mostrarPorId(id);
-  res.status(status || httpStatus.OK).json(resposta);
+  res.status(httpStatus.OK).json(resposta);
 });
 
 export const atualizar = catchAsync(async (req, res) => {
@@ -76,7 +76,7 @@ export const atualizar = catchAsync(async (req, res) => {
   if (imagem) {
     await imagem.mv(path.join(__dirname, "../../public/img/", nomeImagem));
   }
-  res.status(status || httpStatus.OK).json(resposta);
+  res.status(httpStatus.OK).json(resposta);
 });
 
 export const deletar = catchAsync(async (req, res) => {
@@ -87,5 +87,5 @@ export const deletar = catchAsync(async (req, res) => {
   }
 
   const [status] = await ImagemModel.deletar(id);
-  res.status(status || httpStatus.NO_CONTENT).send();
+  res.status(httpStatus.NO_CONTENT).send();
 });
