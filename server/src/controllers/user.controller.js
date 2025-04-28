@@ -1,102 +1,77 @@
-import UsuarioModel from "../models/UsuarioModel.js";
-import jwt from "jsonwebtoken";
-import ApiError from "../utils/ApiError.js";
-import { catchAsync } from "../utils/catchAsync.js";
-import httpStatus from "http-status";
-import { configDotenv } from "dotenv";
-
-configDotenv();
+import {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUserById,
+  deleteUserById,
+  verifyUserCredentials,
+} from '../models/user.model.js';
+import { catchAsync } from '../utils/catchAsync.js';
+import ApiError from '../utils/ApiError.js';
+import httpStatus from 'http-status';
+import jwt from 'jsonwebtoken';
 
 const secret = process.env.SECRET_KEY;
 
 export const create = catchAsync(async (req, res) => {
   const { nome, usuario, senha, usuario_tipo } = req.body;
 
-  const [status, resposta] = await UsuarioModel.inserir(
-    nome,
-    usuario,
-    senha,
-    usuario_tipo
-  );
-
-  res.status(httpStatus.CREATED).json(resposta); // 201 Created
+  const user = await createUser(nome, usuario, senha, usuario_tipo);
+  res.status(httpStatus.CREATED).json(user);
 });
 
-export const index = catchAsync(async (req, res) => {
-  console.debug("Mostrando Usuarios");
-  const [status, resposta] = await UsuarioModel.mostrarTodos();
-  res.status(httpStatus.OK).json(resposta); // 200 OK
+export const list = catchAsync(async (req, res) => {
+  const users = await getAllUsers();
+  res.status(httpStatus.OK).json(users);
 });
 
-export const show = catchAsync(async (req, res) => {
+export const getById = catchAsync(async (req, res) => {
   const { usuario_id } = req.params;
-  const [status, resposta] = await UsuarioModel.mostrarUsuario(usuario_id);
 
-  if (!resposta) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Usuário não encontrado"); // 404 Not Found
+  const user = await getUserById(usuario_id);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
   }
 
-  res.status(httpStatus.OK).json(resposta); // 200 OK
-});
-
-export const destroy = catchAsync(async (req, res) => {
-  const { usuario_id } = req.params;
-  const [status, resposta] = await UsuarioModel.deletarUsuario(usuario_id);
-
-  if (!resposta) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Usuário não encontrado"); // 404 Not Found
-  }
-
-  res.status(httpStatus.NO_CONTENT).send(); // 204 No Content (não retorna corpo)
-});
-
-export const logar = catchAsync(async (req, res) => {
-  const { usuario, senha } = req.body;
-  const [status, mensagem, usuario_id, usuario_tipo] = await UsuarioModel.verificaUsuarioSenha(usuario, senha);
-
-  if (status === 200) {
-    const token = jwt.sign({ usuario_id, usuario_tipo }, secret, { expiresIn: 14400 });
-    res.status(httpStatus.OK).json({ token }); // 200 OK
-  } else {
-    res.status(httpStatus.UNAUTHORIZED).json({ mensagem }); // 401 Unauthorized
-  }
+  res.status(httpStatus.OK).json(user);
 });
 
 export const update = catchAsync(async (req, res) => {
   const { usuario_id } = req.params;
   const { nome, usuario, senha, usuario_tipo } = req.body;
-  console.debug(senha);
 
-  const [status, resposta] = await UsuarioModel.atualizarUsuario(
-    usuario_id,
-    nome,
-    usuario,
-    senha,
-    usuario_tipo
-  );
-
-  if (!resposta) {
-    throw new ApiError(httpStatus.NOT_FOUND, "Usuário não encontrado para atualização"); // 404 Not Found
+  const result = await updateUserById(usuario_id, nome, usuario, senha, usuario_tipo);
+  if (result.affectedRows === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Usuário não encontrado para atualização');
   }
 
-  console.debug("Usuário atualizado com sucesso");
-  res.status(httpStatus.OK).json(resposta); // 200 OK
+  res.status(httpStatus.OK).json({ message: 'Usuário atualizado com sucesso' });
 });
 
-export const verificaToken = (req, res, next) => {
-  const token = req.headers["x-access-token"];
-  if (!token) {
-    return res.status(httpStatus.FORBIDDEN).json({ error: "Nenhum token fornecido" }); // 403 Forbidden
+export const remove = catchAsync(async (req, res) => {
+  const { usuario_id } = req.params;
+
+  const result = await deleteUserById(usuario_id);
+  if (result.affectedRows === 0) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Usuário não encontrado para exclusão');
   }
 
-  jwt.verify(token, secret, (erro, decoded) => {
-    if (erro) {
-      return res.status(httpStatus.UNAUTHORIZED).json({ error: "Falha na autenticação do token" }); // 401 Unauthorized
-    } else {
-      req.usuario_id = decoded.usuario_id;
-      req.usuario_tipo = decoded.usuario_tipo;
-      console.debug(`Id: ${decoded.usuario_id}, Tipo: ${decoded.usuario_tipo}`);
-      next();
-    }
-  });
-};
+  res.status(httpStatus.NO_CONTENT).send();
+});
+
+export const login = catchAsync(async (req, res) => {
+  const { usuario, senha } = req.body;
+
+  const user = await verifyUserCredentials(usuario, senha);
+  if (!user) {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Usuário ou senha inválidos');
+  }
+
+  const token = jwt.sign(
+    { usuario_id: user.usuario_id, usuario_tipo: user.usuario_tipo },
+    secret,
+    { expiresIn: '4h' }
+  );
+
+  res.status(httpStatus.OK).json({ token });
+});

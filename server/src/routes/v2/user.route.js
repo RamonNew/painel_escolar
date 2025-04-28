@@ -1,19 +1,25 @@
-import express from "express";
+import express from 'express';
 import {
   create,
-  destroy,
-  index,
-  logar,
-  show,
+  list,
+  getById,
   update,
-} from "../../controllers/user.controller.js";
-import { createUsuario } from "../../validations/user.validation.js";
-import validate from "../../middlewares/validate.js";
+  remove,
+  login,
+} from '../../controllers/user.controller.js';
+import { createUsuario } from '../../validations/user.validation.js';
+import validate from '../../middlewares/validate.js';
 
 export const userRoute = express.Router();
 
-userRoute.route("/").get(index).post(validate(createUsuario), create);
+userRoute.route('/')
+  .get(list)
+  .post(validate(createUsuario), create);
 
-userRoute.route("/:usuario_id").get(show).put(update).delete(destroy);
+userRoute.route('/:usuario_id')
+  .get(getById)
+  .put(update)
+  .delete(remove);
 
-userRoute.route("/logar").post(logar);
+userRoute.route('/logar')
+  .post(login);
