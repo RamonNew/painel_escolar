@@ -1,9 +1,15 @@
-import AulaModel from "../models/AulaModel.js";
+import {
+  createClass,
+  queryClasses,
+  queryClassByDateAndPeriod,
+  updateClassById,
+  updateClassKeyById,
+} from "../models/class.model.js";
 import { catchAsync } from "../utils/catchAsync.js";
 import ApiError from "../utils/ApiError.js";
 import httpStatus from "http-status";
 
-export const createClass = catchAsync(async (req, res) => {
+export const createClassController = catchAsync(async (req, res) => {
   const { dataAula, horaInicio, horaFim, turma, instrutor, unidadeCurricular, ambiente } = req.body;
 
   if (!dataAula || !horaInicio || !horaFim || !turma || !instrutor || !unidadeCurricular || !ambiente) {
@@ -13,7 +19,7 @@ export const createClass = catchAsync(async (req, res) => {
   const dataHoraInicio = `${dataAula} ${horaInicio}`;
   const dataHoraFim = `${dataAula} ${horaFim}`;
 
-  const [status, resposta] = await AulaModel.createAula(
+  const aula = await createClass(
     dataAula,
     dataHoraInicio,
     dataHoraFim,
@@ -22,41 +28,42 @@ export const createClass = catchAsync(async (req, res) => {
     unidadeCurricular,
     ambiente
   );
-  res.status(httpStatus.CREATED).json(resposta);
+
+  res.status(httpStatus.CREATED).json(aula);
 });
 
-export const readClasses = catchAsync(async (req, res) => {
-  const agora = new Date();
-  const ano = agora.getFullYear();
-  const mes = String(agora.getMonth() + 1).padStart(2, "0");
-  const dia = String(agora.getDate()).padStart(2, "0");
-  const hora = agora.getHours();
-  const minutos = agora.getMinutes();
+export const getClasses = catchAsync(async (req, res) => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const hour = now.getHours();
+  const minutes = now.getMinutes();
 
-  const periodos = [];
-  if (hora < 12 || (hora === 12 && minutos <= 30)) {
-    periodos.push("manha");
-  } else if (hora < 18) {
-    periodos.push("tarde");
+  const periods = [];
+  if (hour < 12 || (hour === 12 && minutes <= 30)) {
+    periods.push("manha");
+  } else if (hour < 18) {
+    periods.push("tarde");
   } else {
-    periodos.push("noite");
+    periods.push("noite");
   }
 
-  const data = `${ano}-${mes}-${dia}`;
+  const today = `${year}-${month}-${day}`;
 
-  const [status, resposta] = await AulaModel.mostrarAulas(data, data, periodos);
-  res.status(httpStatus.OK).json(resposta);
+  const aulas = await queryClasses(today, today, periods);
+  res.status(httpStatus.OK).json(aulas);
 });
 
-export const readClassesByDateAndPeriod = catchAsync(async (req, res) => {
+export const getClassesByDateAndPeriod = catchAsync(async (req, res) => {
   const { dataInicio, dataFim, periodos, turma } = req.body;
 
   if (!dataInicio || !dataFim) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Parâmetros dataInicio e dataFim são obrigatórios.");
   }
 
-  const [status, resposta] = await AulaModel.mostrarAulas(dataInicio, dataFim, periodos || [], turma || "");
-  res.status(httpStatus.OK).json(resposta);
+  const aulas = await queryClassByDateAndPeriod(dataInicio, dataFim, periodos || [], turma || "");
+  res.status(httpStatus.OK).json(aulas);
 });
 
 export const updateClass = catchAsync(async (req, res) => {
@@ -67,11 +74,11 @@ export const updateClass = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.BAD_REQUEST, "O parâmetro id é obrigatório.");
   }
 
-  const [status, resposta] = await AulaModel.atualizarAula(id, instrutor, unidade_curricular, ambiente);
-  res.status(httpStatus.OK).json(resposta);
+  const aulaAtualizada = await updateClassById(id, instrutor, unidade_curricular, ambiente);
+  res.status(httpStatus.OK).json(aulaAtualizada);
 });
 
-export const updateKey = catchAsync(async (req, res) => {
+export const updateClassKey = catchAsync(async (req, res) => {
   const { id } = req.params;
   const { chave } = req.body;
 
@@ -79,6 +86,6 @@ export const updateKey = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.BAD_REQUEST, "Os parâmetros id e chave são obrigatórios.");
   }
 
-  const [status, resposta] = await AulaModel.atualizarChave(id, chave);
-  res.status(httpStatus.OK).json(resposta);
+  const chaveAtualizada = await updateClassKeyById(id, chave);
+  res.status(httpStatus.OK).json(chaveAtualizada);
 });
