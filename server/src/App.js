@@ -6,12 +6,15 @@ import url from 'url';
 
 import { routes } from './routes/v2/index.js';
 import { errorConverter, errorHandler } from './middlewares/error.js';
+import { successHandler, errorHandler as morganErrorHandler } from './config/morgan.js';
 
 const app = express();
 const port = 5000;
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+app.use(successHandler);
 
 // Middleware: parse JSON and URL-encoded data
 app.use(express.json());
@@ -31,6 +34,8 @@ app.get('/', (req, res) => {
 
 // API routes (v2)
 app.use('/v2', routes);
+
+app.use(morganErrorHandler);
 
 // Error handling
 app.use(errorConverter);
