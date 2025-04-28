@@ -8,8 +8,8 @@ const __dirname = path.dirname(__filename);
 
 // Load the appropriate .env file based on the environment
 const envPath = process.env.NODE_ENV === 'test'
-  ? path.resolve(__dirname, '../.env.test')
-  : path.resolve(__dirname, '../.env');
+  ? path.resolve(__dirname, '../../.env.test')
+  : path.resolve(__dirname, '../../.env');
 
 configDotenv({ path: envPath });
 
