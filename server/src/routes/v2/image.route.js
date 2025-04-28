@@ -1,23 +1,19 @@
 import express from 'express';
 import {
-  index,
-  create,
-  readPorId,
-  atualizar,
-  deletar,
- // mostrarImagem
+  getImages,
+  createImage,
+  getImage,
+  updateImage,
+  deleteImage,
 } from '../../controllers/image.controller.js';
 
 export const imageRoute = express.Router();
 
 imageRoute.route('/')
-  .get(index)
-  .post(create);
+  .get(getImages)
+  .post(createImage);
 
 imageRoute.route('/:id')
-  .get(readPorId)
-  .put(atualizar)
-  .delete(deletar);
-
-// Rota separada para exibir a imagem
-//imageRoute.get('/mostrar/:nomeImagem', mostrarImagem);
+  .get(getImage)
+  .put(updateImage)
+  .delete(deleteImage);
