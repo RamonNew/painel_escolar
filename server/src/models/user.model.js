@@ -1,8 +1,9 @@
 import mysql from "mysql2/promise";
 import db from "../conexao.js";
 import bcrypt from "bcryptjs";
+import pool from "../config/db.js";
 
-export const pool = mysql.createPool(db);
+//export const pool = mysql.createPool(db);
 
 export const getUserById = async (usuario_id) => {
   const sql = "SELECT * FROM usuarios WHERE usuario_id = ?";

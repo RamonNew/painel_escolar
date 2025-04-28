@@ -1,7 +1,4 @@
-import mysql from 'mysql2/promise';
-import db from '../conexao.js';
-
-const pool = mysql.createPool(db);
+import pool from "../config/db.js";
 
 export const insertCsvData = async (aulas) => {
   console.debug('Inserindo dados do CSV no banco');
