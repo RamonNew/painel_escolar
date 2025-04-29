@@ -1,42 +1,32 @@
-import {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUserById,
-  deleteUserById,
-  verifyUserCredentials,
-} from '../models/user.model.js';
 import { catchAsync } from '../utils/catchAsync.js';
 import ApiError from '../utils/ApiError.js';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
-import { createUser as createUserService } from '../services/user.service.js';
+import {
+  createUser as createUserService,
+  queryUsers as queryUsersService,
+  getUserById as getUserByIdService,
+  updateUserById as updateUserByIdService,
+  deleteUserById as deleteUserByIdService,
+} from '../services/user.service.js';
+import { verifyUserCredentials } from '../models/user.model.js'; // continua vindo direto do model
 
 const secret = process.env.SECRET_KEY;
 
-// export const create = catchAsync(async (req, res) => {
-//   const { nome, usuario, senha, usuario_tipo } = req.body;
-
-//   const user = await createUser(nome, usuario, senha, usuario_tipo);
-//   res.status(httpStatus.CREATED).json(user);
-// });
-
 export const create = catchAsync(async (req, res) => {
-  //const { nome, usuario, senha, usuario_tipo } = req.body;
-
   const user = await createUserService(req.body);
   res.status(httpStatus.CREATED).json(user);
 });
 
 export const list = catchAsync(async (req, res) => {
-  const users = await getAllUsers();
+  const users = await queryUsersService();
   res.status(httpStatus.OK).json(users);
 });
 
 export const getById = catchAsync(async (req, res) => {
   const { usuario_id } = req.params;
 
-  const user = await getUserById(usuario_id);
+  const user = await getUserByIdService(usuario_id);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Usuário não encontrado');
   }
@@ -46,24 +36,15 @@ export const getById = catchAsync(async (req, res) => {
 
 export const update = catchAsync(async (req, res) => {
   const { usuario_id } = req.params;
-  const { nome, usuario, senha, usuario_tipo } = req.body;
 
-  const result = await updateUserById(usuario_id, nome, usuario, senha, usuario_tipo);
-  if (result.affectedRows === 0) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Usuário não encontrado para atualização');
-  }
-
-  res.status(httpStatus.OK).json({ message: 'Usuário atualizado com sucesso' });
+  const user = await updateUserByIdService(usuario_id, req.body);
+  res.status(httpStatus.OK).json({ message: 'Usuário atualizado com sucesso', user });
 });
 
 export const remove = catchAsync(async (req, res) => {
   const { usuario_id } = req.params;
 
-  const result = await deleteUserById(usuario_id);
-  if (result.affectedRows === 0) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Usuário não encontrado para exclusão');
-  }
-
+  await deleteUserByIdService(usuario_id);
   res.status(httpStatus.NO_CONTENT).send();
 });
 

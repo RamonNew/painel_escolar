@@ -1,4 +1,10 @@
-import { createUser, getUserById, getAllUsers, updateUserById, deleteUserById } from "../../../src/models/user.model.js";
+import {
+  createUser,
+  getUserById,
+  updateUserById,
+  deleteUserById,
+  getUsers,
+} from "../../../src/models/user.model.js";
 import pool from "../../../src/config/db.js";
 
 describe("User Model", () => {
@@ -11,15 +17,11 @@ describe("User Model", () => {
         usuario_tipo: "A",
       };
 
-      const result = await createUser(
-        mockUser.nome,
-        mockUser.usuario,
-        mockUser.senha,
-        mockUser.usuario_tipo
-      );
+      const result = await createUser(mockUser);
 
-      expect(result).toHaveProperty("insertId");
-      expect(typeof result.insertId).toBe("number");
+      expect(result).toHaveProperty("usuario_id");
+      expect(typeof result.usuario_id).toBe("number");
+      expect(result.nome).toBe(mockUser.nome);
     });
   });
 
@@ -32,14 +34,9 @@ describe("User Model", () => {
         usuario_tipo: "A",
       };
 
-      const created = await createUser(
-        mockUser.nome,
-        mockUser.usuario,
-        mockUser.senha,
-        mockUser.usuario_tipo
-      );
+      const created = await createUser(mockUser);
 
-      const retrievedUser = await getUserById(created.insertId);
+      const retrievedUser = await getUserById(created.usuario_id);
 
       expect(retrievedUser).not.toBeNull();
       expect(retrievedUser.nome).toBe(mockUser.nome);
@@ -47,12 +44,22 @@ describe("User Model", () => {
     });
   });
 
-  describe("getAllUsers", () => {
+  describe("getUsers", () => {
     it("should retrieve all users", async () => {
-      await createUser("User One", "userone", "pass1", "A");
-      await createUser("User Two", "usertwo", "pass2", "A");
+      await createUser({
+        nome: "User One",
+        usuario: "userone",
+        senha: "pass1",
+        usuario_tipo: "A",
+      });
+      await createUser({
+        nome: "User Two",
+        usuario: "usertwo",
+        senha: "pass2",
+        usuario_tipo: "A",
+      });
 
-      const users = await getAllUsers();
+      const users = await getUsers();
 
       expect(users.length).toBeGreaterThanOrEqual(2);
       const nomes = users.map((u) => u.nome);
@@ -62,17 +69,22 @@ describe("User Model", () => {
 
   describe("updateUserById", () => {
     it("should update user information", async () => {
-      const created = await createUser("Old Name", "olduser", "oldpass", "A");
+      const created = await createUser({
+        nome: "Old Name",
+        usuario: "olduser",
+        senha: "oldpass",
+        usuario_tipo: "A",
+      });
 
       await updateUserById(
-        created.insertId,
+        created.usuario_id,
         "New Name",
         "newuser",
         "newpass",
         "U"
       );
 
-      const updatedUser = await getUserById(created.insertId);
+      const updatedUser = await getUserById(created.usuario_id);
 
       expect(updatedUser.nome).toBe("New Name");
       expect(updatedUser.usuario).toBe("newuser");
@@ -82,24 +94,31 @@ describe("User Model", () => {
 
   describe("deleteUserById", () => {
     it("should delete a user by ID", async () => {
-      const created = await createUser("Delete User", "deleteuser", "pass", "A");
+      const created = await createUser({
+        nome: "Delete User",
+        usuario: "deleteuser",
+        senha: "pass",
+        usuario_tipo: "A",
+      });
 
-      const deleteResult = await deleteUserById(created.insertId);
+      const deleteResult = await deleteUserById(created.usuario_id);
 
       expect(deleteResult.affectedRows).toBe(1);
 
-      const userAfterDelete = await getUserById(created.insertId);
+      const userAfterDelete = await getUserById(created.usuario_id);
       expect(userAfterDelete).toBeNull();
     });
   });
 
-  afterEach(async () => {
-    // Clean up after each test
+  // afterEach(async () => {
+  //   await pool.query("TRUNCATE TABLE usuarios");
+  // });
+
+  beforeEach(async () => {
     await pool.query("TRUNCATE TABLE usuarios");
   });
 
   afterAll(async () => {
-    // Close the database connection after all tests
     await pool.end();
   });
 });
