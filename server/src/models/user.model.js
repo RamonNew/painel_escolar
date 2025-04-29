@@ -50,3 +50,35 @@ export const verifyUserCredentials = async (usuario, senha) => {
   const { usuario_id, usuario_tipo } = rows[0];
   return { usuario_id, usuario_tipo };
 };
+
+export const checkIfUserInUse = async (userBody) => {
+  const userName = userBody.usuario;
+  const sql = "SELECT usuario FROM usuarios WHERE usuario = ?";
+  const [rows] = await pool.query(sql, userName);
+  if (rows.length === 0) {
+    return false;
+  }
+  return true;
+};
+
+export const insertUser = async (userBody) => {
+  const { nome, usuario, senha, usuario_tipo } = userBody;
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(senha, salt);
+  const sql = "INSERT INTO usuarios (nome, usuario, senha, usuario_tipo) VALUES (?, ?, ?, ?)";
+  const params = [nome, usuario, hash, usuario_tipo];
+  try {
+    const [retorno] = await pool.query(sql, params);
+    if (!retorno.insertId) {
+      throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Falha ao criar usuário');
+    }
+    return {
+      usuario_id: retorno.insertId, 
+      nome,
+      usuario,
+      usuario_tipo
+    };
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message || 'Erro ao inserir usuário');
+  }
+};

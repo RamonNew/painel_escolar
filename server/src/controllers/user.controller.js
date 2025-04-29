@@ -10,13 +10,21 @@ import { catchAsync } from '../utils/catchAsync.js';
 import ApiError from '../utils/ApiError.js';
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
+import { createUser as createUserService } from '../services/user.service.js';
 
 const secret = process.env.SECRET_KEY;
 
-export const create = catchAsync(async (req, res) => {
-  const { nome, usuario, senha, usuario_tipo } = req.body;
+// export const create = catchAsync(async (req, res) => {
+//   const { nome, usuario, senha, usuario_tipo } = req.body;
 
-  const user = await createUser(nome, usuario, senha, usuario_tipo);
+//   const user = await createUser(nome, usuario, senha, usuario_tipo);
+//   res.status(httpStatus.CREATED).json(user);
+// });
+
+export const create = catchAsync(async (req, res) => {
+  //const { nome, usuario, senha, usuario_tipo } = req.body;
+
+  const user = await createUserService(req.body);
   res.status(httpStatus.CREATED).json(user);
 });
 
