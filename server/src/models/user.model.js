@@ -123,3 +123,18 @@ export const checkIfUserInUse = async (userBody) => {
   }
   return true;
 };
+
+export const getUserByUsuario = async (usuario) => {
+  try {
+    const sql = "SELECT usuario_id, nome, usuario, senha, usuario_tipo FROM usuarios WHERE usuario = ?";
+    const [rows] = await pool.query(sql, [usuario]);
+
+    if (!rows.length) {
+      throw new ApiError(httpStatus.NOT_FOUND, "Usuário não encontrado");
+    }
+
+    return rows[0];
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message || "Erro ao buscar usuário por nome de usuário");
+  }
+};

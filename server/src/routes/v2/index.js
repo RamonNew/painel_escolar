@@ -4,6 +4,7 @@ import { csvRoute } from "./csv.route.js";
 import { imageRoute } from "./image.route.js";
 import { classRoute } from "./class.route.js";
 import { roomRoute } from './room.route.js';
+import { authRoute } from "./auth.route.js";
 
 export const routes = express.Router();
 
@@ -25,6 +26,9 @@ const defaultRoutes = [
   },{
     path: '/rooms',
     route: roomRoute,
+  },{
+    path: '/auth',
+    route: authRoute,
   },
 ];
 
